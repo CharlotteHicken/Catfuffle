@@ -568,8 +568,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  accelerateTime: 1
-  decelerateTime: 1
+  accelerateTime: 0.2
+  decelerateTime: 0.2
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
