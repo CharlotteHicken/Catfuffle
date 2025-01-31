@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundCheckSize = new(0.4f, 0.1f);
     public LayerMask groundCheckMask;
 
+    [SerializeField]
     Vector3 velocity;
 
     // Start is called before the first frame update
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        //rb.constraints = RigidbodyConstraints.FreezeRotation; // Prevent rolling but also stops movement
+        //rb.constraints = RigidbodyConstraints.FreezeRotation; // Prevent rolling but also stops movement uh oh
 
         gravity = -2 * apexHeight / (Mathf.Pow(apexTime, 2));
         initialJumpSpeed = 2 * apexHeight / apexTime;
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        velocity = rb.velocity;
         Vector3 playerInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
         MovementUpdate(playerInput);
@@ -90,8 +92,10 @@ public class PlayerController : MonoBehaviour
             velocity.y = -0.1f;
         }
 
+        Debug.Log("IsGrounded["+ isGrounded.ToString()+ "] IsJumping["+ Input.GetButton("Jump") .ToString()+ "]");
         if (isGrounded && Input.GetButton("Jump"))
         {
+            Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
         }
@@ -102,6 +106,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForGround()
     {
+        //Debug.DrawLine(transform.position + Vector3.down * groundCheckOffset, transform.position + Vector3.down * groundCheckOffset - Vector3.down * groundCheckSize.y / 2, Color.red);
         isGrounded = Physics.CheckBox(transform.position + Vector3.down * groundCheckOffset, groundCheckSize / 2, Quaternion.identity, groundCheckMask.value); //if physics box collides with the ground, player is grounded
     }
 }

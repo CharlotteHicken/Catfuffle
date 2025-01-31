@@ -488,7 +488,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!23 &1999558763
 MeshRenderer:
@@ -573,11 +573,12 @@ MonoBehaviour:
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
-  groundCheckOffset: 0.5
-  groundCheckSize: {x: 0.4, y: 0.1, z: 0}
+  groundCheckOffset: -0.5
+  groundCheckSize: {x: 0.4, y: 0.8, z: 0}
   groundCheckMask:
     serializedVersion: 2
     m_Bits: 64
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!136 &1999558767
 CapsuleCollider:
   m_ObjectHideFlags: 0
