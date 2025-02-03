@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckForGround();
 
-        OnDrawGizmos();
+        //OnDrawGizmos();
     }
 
     private void FixedUpdate()
