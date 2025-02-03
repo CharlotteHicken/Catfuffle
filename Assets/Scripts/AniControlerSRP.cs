@@ -13,30 +13,37 @@ public class AniControlerSRP : MonoBehaviour
 
         if (Input.GetAxis("Jump") != 0)
         {
+            ani.SetBool("isJumping", true);
             isJumping = true;
         }
         else
         {
+            ani.SetBool("isJumping", false);
             isJumping = false;
         }
 
         if (Input.GetAxis("Horizontal") != 0)
         {
+            ani.SetBool("isWalking", true);
             isWalking = true;
         }
         else
         {
+            ani.SetBool("isWalking", false);
             isWalking = false;
         }
 
         if (Input.GetAxis("Vertical") != 0)
         {
+            ani.SetBool("isWalking", true);
             isWalking = true;
         }
         else
         {
+            ani.SetBool("isWalking", false);
             isWalking = false;
         }
+
     }
 
 }
