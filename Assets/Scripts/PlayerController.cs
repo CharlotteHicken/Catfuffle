@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CheckForGround();
+
+        OnDrawGizmos();
     }
 
     private void FixedUpdate()
@@ -108,5 +110,15 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.DrawLine(transform.position + Vector3.down * groundCheckOffset, transform.position + Vector3.down * groundCheckOffset - Vector3.down * groundCheckSize.y / 2, Color.red);
         isGrounded = Physics.CheckBox(transform.position + Vector3.down * groundCheckOffset, groundCheckSize / 2, Quaternion.identity, groundCheckMask.value); //if physics box collides with the ground, player is grounded
+    }
+
+    void OnDrawGizmos()
+    {
+        // Define the position of the box (down from the player's position)
+        Vector3 boxPosition = transform.position + Vector3.down * groundCheckOffset;
+
+        // Visualize the box with Gizmos at the check position
+        Gizmos.color = Color.green; // Set the color for the gizmo
+        Gizmos.DrawWireCube(boxPosition, groundCheckSize); // Draw a wireframe box
     }
 }
