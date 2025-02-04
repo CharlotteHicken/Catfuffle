@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public float decelerateTime = 0.2f;
     float acceleration;
     float deceleration;
+    public float rotateSpeed;
+    Quaternion currentRotation;
 
     [Header("Jump Settings")]
     float gravity;
@@ -26,8 +28,9 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundCheckSize = new(0.4f, 0.1f);
     public LayerMask groundCheckMask;
 
-    [SerializeField]
+    //[SerializeField]
     Vector3 velocity;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         //rb.constraints = RigidbodyConstraints.FreezeRotation; // Prevent rolling but also stops movement uh oh
+        //currentRotation = transform.rotation;
 
         gravity = -2 * apexHeight / (Mathf.Pow(apexTime, 2));
         initialJumpSpeed = 2 * apexHeight / apexTime;
@@ -54,6 +58,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         velocity = rb.velocity;
+        RotatePlayer();
         Vector3 playerInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
         MovementUpdate(playerInput);
@@ -81,6 +86,18 @@ public class PlayerController : MonoBehaviour
             velocity = Mathf.MoveTowards(velocity, 0, deceleration * Time.fixedDeltaTime);
         }
         return velocity;
+    }
+
+    private void RotatePlayer()
+    {
+        Vector3 movementDirection = new Vector3(velocity.x, 0, velocity.z);
+
+        if (movementDirection.sqrMagnitude > 0.0001f) // Only update rotation when moving
+        {
+            currentRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+        }
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, currentRotation, Time.deltaTime * rotateSpeed);
     }
 
     private void JumpUpdate()
