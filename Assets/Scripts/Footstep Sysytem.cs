@@ -8,13 +8,14 @@ public class FootstepSysytem : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.S) || (Input.GetKey(KeyCode.D)))))
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
             FootSteps.enabled = true;
         }
         else
         {
-            FootSteps.enabled = false; 
+            FootSteps.enabled = false;
         }
     }
+
 }
