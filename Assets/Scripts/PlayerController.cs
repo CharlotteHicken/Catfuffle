@@ -1,5 +1,7 @@
+using NodeCanvas.Tasks.Actions;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -28,6 +30,22 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundCheckSize = new(0.4f, 0.1f);
     public LayerMask groundCheckMask;
 
+
+    [Header("Grabbing and Pushing")]
+
+    public RaycastHit hit;
+    public GameObject grabbedObject;
+    private RigidbodyInterpolation objInterpolation;
+    private bool isGrabbing = false;
+    public float grabRange = 8f;
+    public float pushForce = 5f;
+    public float holdDistance = 1.5f;
+    private Rigidbody grabbedRb;
+    private Vector3 objectOffset;
+    Vector3 directionToTarget;
+    public GameObject grabby;
+    private Collider grabbedCollider;
+
     //[SerializeField]
     Vector3 velocity;
 
@@ -50,9 +68,28 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
         CheckForGround();
+        if (Input.GetButtonDown("Grab"))
+        {
+            Debug.Log("Input");
+            FaceObject();
+            GrabObject();
 
-        //OnDrawGizmos();
+      //      TryGrabObject();
+        }
+
+        if (isGrabbing)
+
+            MoveGrabbedObject();
+
+     
+    
+
+        if (Input.GetButtonUp("Grab"))
+        {
+            ReleaseObject();
+}
     }
 
     private void FixedUpdate()
@@ -91,7 +128,7 @@ public class PlayerController : MonoBehaviour
     private void RotatePlayer()
     {
         Vector3 movementDirection = new Vector3(velocity.x, 0, velocity.z);
-
+        
         if (movementDirection.sqrMagnitude > 0.0001f) // Only update rotation when moving
         {
             currentRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
@@ -128,6 +165,95 @@ public class PlayerController : MonoBehaviour
         //Debug.DrawLine(transform.position + Vector3.down * groundCheckOffset, transform.position + Vector3.down * groundCheckOffset - Vector3.down * groundCheckSize.y / 2, Color.red);
         isGrounded = Physics.CheckBox(transform.position + Vector3.down * groundCheckOffset, groundCheckSize / 2, Quaternion.identity, groundCheckMask.value); //if physics box collides with the ground, player is grounded
     }
+    private void OnCollisionStay(Collision collision)
+    {
+    }
+    private void GrabObject()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
+        {
+            if (hit.collider.CompareTag("obj")) // Object must have "obj" tag
+                Debug.Log("Button pressed");
+
+
+            grabbedRb = hit.collider.GetComponent<Rigidbody>();
+            grabbedCollider = hit.collider; // Store object collider
+
+            if (grabbedRb)
+            {
+
+                //  hit.transform.SetParent(grabby.transform, true);
+                grabbedRb.useGravity = false;
+                grabbedRb.freezeRotation = true;
+                grabbedRb.interpolation = RigidbodyInterpolation.Interpolate; // Smooth Movement
+                grabbedRb.isKinematic = true; // Prevents physics interactions while held
+                Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
+                isGrabbing = true;
+                maxSpeed = 2.5f;
+
+            }
+
+
+            if (Input.GetButtonUp("Grab"))
+            {
+                grabbedObject.GetComponent<Rigidbody>().interpolation = objInterpolation;
+                grabbedObject = null;
+            }
+        }
+    }
+
+
+
+      
+
+    private void MoveGrabbedObject()
+    {
+        if (grabbedRb)
+        {
+            Vector3 targetPosition = transform.position + transform.forward * holdDistance;
+            grabbedRb.position = Vector3.Lerp(grabbedRb.position, targetPosition, Time.deltaTime * maxSpeed);
+        }
+    }
+
+    private void FaceObject()
+    {
+        if (grabbedRb)
+        {
+            Vector3 directionToTarget = (grabbedRb.position - rb.position).normalized;
+            directionToTarget.y = 0; // Prevents looking up/down
+
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+                rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * rotateSpeed);
+            }
+        }
+    }
+
+    private void PushObject()
+    {
+        if (grabbedRb)
+        {
+            grabbedRb.isKinematic = false; // Reactivate physics for push
+            grabbedRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+            ReleaseObject(); // Let go after pushing
+        }
+    }
+
+    private void ReleaseObject()
+    {
+        if (grabbedRb)
+        {
+            grabbedRb.useGravity = true;
+            grabbedRb.freezeRotation = false;
+            grabbedRb.isKinematic = false; // Restore physics
+            Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), false); // Restore collision
+            grabbedRb.velocity = Vector3.zero;
+            grabbedRb = null;
+            grabbedCollider = null;
+            isGrabbing = false;
+        }
+    }
 
     void OnDrawGizmos()
     {
@@ -137,5 +263,11 @@ public class PlayerController : MonoBehaviour
         // Visualize the box with Gizmos at the check position
         Gizmos.color = Color.green; // Set the color for the gizmo
         Gizmos.DrawWireCube(boxPosition, groundCheckSize); // Draw a wireframe box
+
+        Vector3 temp = new Vector3(0.5f, 0.5f, 0.5f);
+        Vector3 grabbedBoxPosition = transform.position + Vector3.forward * 0.5f;
+        Gizmos.DrawWireCube(grabbedBoxPosition, temp);
+
     }
 }
+
