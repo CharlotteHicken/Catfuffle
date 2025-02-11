@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     //[SerializeField]
     Vector3 velocity;
 
+    //[Header("Controls")]
+    public string horizontalControl;
+    public string verticalControl;
+    public string jumpButton;
+
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         velocity = rb.velocity;
         RotatePlayer();
-        Vector3 playerInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        Vector3 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
 
         MovementUpdate(playerInput);
 
@@ -112,7 +117,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Debug.Log("IsGrounded["+ isGrounded.ToString()+ "] IsJumping["+ Input.GetButton("Jump") .ToString()+ "]");
-        if (isGrounded && Input.GetButton("Jump"))
+        if (isGrounded && Input.GetButton(jumpButton))
         {
             Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
