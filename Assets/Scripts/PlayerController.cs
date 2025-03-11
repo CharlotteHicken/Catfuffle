@@ -7,7 +7,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
-
     [Header("Movement Settings")]
     public float maxSpeed = 5;
     public float accelerateTime = 0.2f;
@@ -165,32 +164,43 @@ public class PlayerController : MonoBehaviour
         //Debug.DrawLine(transform.position + Vector3.down * groundCheckOffset, transform.position + Vector3.down * groundCheckOffset - Vector3.down * groundCheckSize.y / 2, Color.red);
         isGrounded = Physics.CheckBox(transform.position + Vector3.down * groundCheckOffset, groundCheckSize / 2, Quaternion.identity, groundCheckMask.value); //if physics box collides with the ground, player is grounded
     }
-    private void OnCollisionStay(Collision collision)
+   [System.Serializable]
+   public struct GrabDataLog
     {
+       public Vector3 playerPosition;
+       public Vector3 objPosition;
+        public string gameObjectName;
     }
+
     private void GrabObject()
     {
         if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
         {
             if (hit.collider.CompareTag("obj")) // Object must have "obj" tag
                 Debug.Log("Button pressed");
-
+           
 
             grabbedRb = hit.collider.GetComponent<Rigidbody>();
-            grabbedCollider = hit.collider; // Store object collider
+            grabbedCollider = hit.collider;
 
+            var data = new GrabDataLog()
+            {
+                playerPosition = transform.position,
+                objPosition = grabbedRb.transform.position,
+                gameObjectName = grabbedRb.name
+            };
+            TelemetryLogger.Log(this, "Grabbed Object", data);
             if (grabbedRb)
             {
 
-                //  hit.transform.SetParent(grabby.transform, true);
+               
                 grabbedRb.useGravity = false;
                 grabbedRb.freezeRotation = true;
-                grabbedRb.interpolation = RigidbodyInterpolation.Interpolate; // Smooth Movement
-                grabbedRb.isKinematic = true; // Prevents physics interactions while held
-                Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
+                grabbedRb.interpolation = RigidbodyInterpolation.Interpolate; 
+                grabbedRb.isKinematic = true; 
+                Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); 
                 isGrabbing = true;
                 maxSpeed = 2.5f;
-
             }
 
 
