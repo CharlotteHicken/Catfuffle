@@ -105,6 +105,13 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, currentRotation, Time.deltaTime * rotateSpeed);
     }
 
+    [System.Serializable]
+    public struct JumpEventData
+    {
+        public string target;
+        public Vector3 targetPos;
+        
+    }
     private void JumpUpdate()
     {
         if (!isGrounded)
@@ -116,9 +123,17 @@ public class PlayerController : MonoBehaviour
             velocity.y = -0.1f;
         }
 
+        var data = new JumpEventData()
+        {
+            target = name,
+            targetPos = transform.position
+        };
+
         Debug.Log("IsGrounded["+ isGrounded.ToString()+ "] IsJumping["+ Input.GetButton("Jump") .ToString()+ "]");
         if (isGrounded && Input.GetButton(jumpButton))
         {
+            TelemetryLogger.Log(this, "Jummped", data);
+
             Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
