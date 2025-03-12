@@ -30,7 +30,19 @@ public class PlayerController : MonoBehaviour
 
     //[SerializeField]
     Vector3 velocity;
-
+    [Header("Grabbing Variables")]
+    public RaycastHit hit;
+    public GameObject grabbedObject;
+    private RigidbodyInterpolation objInterpolation;
+    private bool isGrabbing = false;
+    public float grabRange = 8f;
+    public float pushForce = 5f;
+    public float holdDistance = 1.5f;
+    private Rigidbody grabbedRb;
+    private Vector3 objectOffset;
+    Vector3 directionToTarget;
+    public GameObject grabby;
+    private Collider grabbedCollider;
     //[Header("Controls")]
     public string horizontalControl;
     public string verticalControl;
@@ -55,6 +67,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
+        if (Input.GetButtonDown("Grab"))
+        {
+            Debug.Log("Input");
+            FaceObject();
+            GrabObject();
+
+            //      TryGrabObject();
+        }
+
+        if (isGrabbing) MoveGrabbedObject();
+
+        if (Input.GetButtonUp("Grab"))
+        {
+            ReleaseObject();
+        }
         CheckForGround();
 
         //OnDrawGizmos();
@@ -143,4 +171,91 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.green; // Set the color for the gizmo
         Gizmos.DrawWireCube(boxPosition, groundCheckSize); // Draw a wireframe box
     }
+    private void GrabObject()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
+        {
+            if (hit.collider.CompareTag("Player")) // Object must have "obj" tag
+                Debug.Log("Button pressed");
+
+
+            grabbedRb = hit.collider.GetComponent<Rigidbody>();
+            grabbedCollider = hit.collider; // Store object collider
+
+            if (grabbedRb)
+            {
+
+                //  hit.transform.SetParent(grabby.transform, true);
+                grabbedRb.useGravity = false;
+                grabbedRb.freezeRotation = true;
+                grabbedRb.interpolation = RigidbodyInterpolation.Interpolate; // Smooth Movement
+                grabbedRb.isKinematic = true; // Prevents physics interactions while held
+                Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
+                isGrabbing = true;
+                maxSpeed = 2.5f;
+
+            }
+
+
+            if (Input.GetButtonUp("Grab"))
+            {
+                grabbedObject.GetComponent<Rigidbody>().interpolation = objInterpolation;
+                grabbedObject = null;
+            }
+        }
+    }
+
+
+
+
+
+    private void MoveGrabbedObject()
+    {
+        if (grabbedRb)
+        {
+            Vector3 targetPosition = transform.position + transform.forward * holdDistance;
+            grabbedRb.position = Vector3.Lerp(grabbedRb.position, targetPosition, Time.deltaTime * maxSpeed);
+        }
+    }
+
+    private void FaceObject()
+    {
+        if (grabbedRb)
+        {
+            Vector3 directionToTarget = (grabbedRb.position - rb.position).normalized;
+            directionToTarget.y = 0; // Prevents looking up/down
+
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+                rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * rotateSpeed);
+            }
+        }
+    }
+
+    private void PushObject()
+    {
+        if (grabbedRb)
+        {
+            grabbedRb.isKinematic = false; // Reactivate physics for push
+            grabbedRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+            ReleaseObject(); // Let go after pushing
+        }
+    }
+
+    private void ReleaseObject()
+    {
+        if (grabbedRb)
+        {
+            grabbedRb.useGravity = true;
+            grabbedRb.freezeRotation = false;
+            grabbedRb.isKinematic = false; // Restore physics
+            Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), false); // Restore collision
+            grabbedRb.velocity = Vector3.zero;
+            grabbedRb = null;
+            grabbedCollider = null;
+            isGrabbing = false;
+        }
+    }
+ 
 }
