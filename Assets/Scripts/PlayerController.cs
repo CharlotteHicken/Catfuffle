@@ -48,10 +48,22 @@ public class PlayerController : MonoBehaviour
     public string verticalControl;
     public string jumpButton;
 
+    [Header("Health/Slapping Variables")]
+    public Rigidbody[] bodyParts;  // All the body part rigidbodies for the ragdoll
+    public Collider[] colliders;  // Colliders for ragdoll body parts
+    public Animator animator;     // Animator of the character
+    private int hitCount = 10;     // Counter for how many hits the character has taken
+    public int maxHits = 10;      // Maximum hits before ragdolling
+    public float resetTime = 10f; // Time to reset the character after ragdolling
+
+    private bool isRagdoll = false; // Flag to check if the character is in ragdoll mode
 
     // Start is called before the first frame update
     void Start()
     {
+        // Ensure body parts and colliders are set up (you can manually assign these in the inspector)
+        bodyParts = GetComponentsInChildren<Rigidbody>();
+        colliders = GetComponentsInChildren<Collider>();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         //rb.constraints = RigidbodyConstraints.FreezeRotation; // Prevent rolling but also stops movement uh oh
@@ -144,7 +156,7 @@ public class PlayerController : MonoBehaviour
             velocity.y = -0.1f;
         }
 
-        Debug.Log("IsGrounded["+ isGrounded.ToString()+ "] IsJumping["+ Input.GetButton("Jump") .ToString()+ "]");
+        Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
         if (isGrounded && Input.GetButton(jumpButton))
         {
             Debug.Log("Jump!");
@@ -257,5 +269,83 @@ public class PlayerController : MonoBehaviour
             isGrabbing = false;
         }
     }
- 
+
+
+
+    // Call this method when the character is hit
+    public void OnHit()
+    {
+        hitCount++;
+
+        if (hitCount >= maxHits && !isRagdoll)
+        {
+            // Enable ragdoll when hit count reaches maxHits
+            EnableRagdoll();
+
+            // Start the reset coroutine
+            StartCoroutine(ResetAfterDelay());
+        }
+    }
+
+    // Enable ragdoll physics
+    void EnableRagdoll()
+    {
+        // Disable the animator to prevent it from interfering with ragdoll physics
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+
+        // Enable ragdoll (set Rigidbody to non-kinematic)
+        foreach (Rigidbody rb in bodyParts)
+        {
+            rb.isKinematic = false;
+        }
+
+        // Enable colliders for all body parts
+        foreach (Collider col in colliders)
+        {
+            col.enabled = true;
+        }
+
+        isRagdoll = true;
+    }
+
+    // Disable ragdoll and reset the character
+    void DisableRagdoll()
+    {
+        // Re-enable the animator
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+
+        // Set Rigidbody to kinematic (back to normal state)
+        foreach (Rigidbody rb in bodyParts)
+        {
+            rb.isKinematic = true;
+        }
+
+        // Disable colliders for ragdoll parts
+        foreach (Collider col in colliders)
+        {
+            col.enabled = false;
+        }
+
+        isRagdoll = false;
+    }
+
+    // Coroutine to reset the character after the ragdoll knock-out
+    IEnumerator ResetAfterDelay()
+    {
+        // Wait for the specified reset time
+        yield return new WaitForSeconds(resetTime);
+
+        // Reset the character to standing position and disable ragdoll
+        DisableRagdoll();
+
+    }
+
+    // Reset the character's position or state after ragdoll
+  
 }
