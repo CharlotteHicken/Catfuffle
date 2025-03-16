@@ -55,7 +55,8 @@ public class PlayerController : MonoBehaviour
     private int hitCount = 10;     // Counter for how many hits the character has taken
     public int maxHits = 10;      // Maximum hits before ragdolling
     public float resetTime = 10f; // Time to reset the character after ragdolling
-
+    private Vector2 lookInput;
+    float rotationSpeed = 5f;
     private bool isRagdoll = false; // Flag to check if the character is in ragdoll mode
 
     // Start is called before the first frame update
@@ -80,10 +81,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
-        if (Input.GetButtonDown("Grab"))
+        if (Input.GetButtonDown("Left Arm"))
         {
             Debug.Log("Input");
-            FaceObject();
+        
             GrabObject();
 
             //      TryGrabObject();
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrabbing) MoveGrabbedObject();
 
-        if (Input.GetButtonUp("Grab"))
+        if (Input.GetButtonUp("Left Arm") || Input.GetButtonUp("Right Arm"))
         {
             ReleaseObject();
         }
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
 
         JumpUpdate();
 
+        Rotate();
         rb.velocity = new Vector3(velocity.x, velocity.y, velocity.z);
     }
 
@@ -117,6 +119,8 @@ public class PlayerController : MonoBehaviour
     {
         velocity.x = CalculateMovementInput(playerInput.x, velocity.x);
         velocity.z = CalculateMovementInput(playerInput.z, velocity.z);
+        lookInput = new Vector2(Input.GetAxis("RightStickHorizontal"), Input.GetAxis("RightStickVertical"));
+
     }
 
     private float CalculateMovementInput(float input, float velocity)
@@ -204,12 +208,12 @@ public class PlayerController : MonoBehaviour
                 grabbedRb.isKinematic = true; // Prevents physics interactions while held
                 Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
                 isGrabbing = true;
-                maxSpeed = 2.5f;
+                
 
             }
 
 
-            if (Input.GetButtonUp("Grab"))
+            if (Input.GetButtonUp("Left Arm") || Input.GetButtonUp("Right Arm"))
             {
                 grabbedObject.GetComponent<Rigidbody>().interpolation = objInterpolation;
                 grabbedObject = null;
@@ -270,82 +274,90 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
-    // Call this method when the character is hit
-   /* public void OnHit()
+    void Rotate()
     {
-        hitCount++;
-
-        if (hitCount >= maxHits && !isRagdoll)
+        if (lookInput.sqrMagnitude > 0.1f) // Ensure there's input
         {
-            // Enable ragdoll when hit count reaches maxHits
-            EnableRagdoll();
-
-            // Start the reset coroutine
-            StartCoroutine(ResetAfterDelay());
+            Vector3 lookDirection = new Vector3(lookInput.x, 0, lookInput.y);
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
+
+        // Call this method when the character is hit
+        /* public void OnHit()
+         {
+             hitCount++;
+
+             if (hitCount >= maxHits && !isRagdoll)
+             {
+                 // Enable ragdoll when hit count reaches maxHits
+                 EnableRagdoll();
+
+                 // Start the reset coroutine
+                 StartCoroutine(ResetAfterDelay());
+             }
+         }
+
+         // Enable ragdoll physics
+         void EnableRagdoll()
+         {
+             // Disable the animator to prevent it from interfering with ragdoll physics
+             if (animator != null)
+             {
+                 animator.enabled = false;
+             }
+
+             // Enable ragdoll (set Rigidbody to non-kinematic)
+             foreach (Rigidbody rb in bodyParts)
+             {
+                 rb.isKinematic = false;
+             }
+
+             // Enable colliders for all body parts
+             foreach (Collider col in colliders)
+             {
+                 col.enabled = true;
+             }
+
+             isRagdoll = true;
+         }
+
+         // Disable ragdoll and reset the character
+         void DisableRagdoll()
+         {
+             // Re-enable the animator
+             if (animator != null)
+             {
+                 animator.enabled = true;
+             }
+
+             // Set Rigidbody to kinematic (back to normal state)
+             foreach (Rigidbody rb in bodyParts)
+             {
+                 rb.isKinematic = true;
+             }
+
+             // Disable colliders for ragdoll parts
+             foreach (Collider col in colliders)
+             {
+                 col.enabled = false;
+             }
+
+             isRagdoll = false;
+         }
+
+         // Coroutine to reset the character after the ragdoll knock-out
+         IEnumerator ResetAfterDelay()
+         {
+             // Wait for the specified reset time
+             yield return new WaitForSeconds(resetTime);
+
+             // Reset the character to standing position and disable ragdoll
+             DisableRagdoll();
+
+         }*/
+
+        // Reset the character's position or state after ragdoll
+
     }
-
-    // Enable ragdoll physics
-    void EnableRagdoll()
-    {
-        // Disable the animator to prevent it from interfering with ragdoll physics
-        if (animator != null)
-        {
-            animator.enabled = false;
-        }
-
-        // Enable ragdoll (set Rigidbody to non-kinematic)
-        foreach (Rigidbody rb in bodyParts)
-        {
-            rb.isKinematic = false;
-        }
-
-        // Enable colliders for all body parts
-        foreach (Collider col in colliders)
-        {
-            col.enabled = true;
-        }
-
-        isRagdoll = true;
-    }
-
-    // Disable ragdoll and reset the character
-    void DisableRagdoll()
-    {
-        // Re-enable the animator
-        if (animator != null)
-        {
-            animator.enabled = true;
-        }
-
-        // Set Rigidbody to kinematic (back to normal state)
-        foreach (Rigidbody rb in bodyParts)
-        {
-            rb.isKinematic = true;
-        }
-
-        // Disable colliders for ragdoll parts
-        foreach (Collider col in colliders)
-        {
-            col.enabled = false;
-        }
-
-        isRagdoll = false;
-    }
-
-    // Coroutine to reset the character after the ragdoll knock-out
-    IEnumerator ResetAfterDelay()
-    {
-        // Wait for the specified reset time
-        yield return new WaitForSeconds(resetTime);
-
-        // Reset the character to standing position and disable ragdoll
-        DisableRagdoll();
-
-    }*/
-
-    // Reset the character's position or state after ragdoll
-  
 }
