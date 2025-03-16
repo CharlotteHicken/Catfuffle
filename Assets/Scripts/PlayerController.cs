@@ -273,7 +273,7 @@ public class PlayerController : MonoBehaviour
 
 
     // Call this method when the character is hit
-    public void OnHit()
+   /* public void OnHit()
     {
         hitCount++;
 
@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
         // Reset the character to standing position and disable ragdoll
         DisableRagdoll();
 
-    }
+    }*/
 
     // Reset the character's position or state after ragdoll
   
