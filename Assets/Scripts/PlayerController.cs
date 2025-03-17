@@ -54,22 +54,20 @@ public class PlayerController : MonoBehaviour
     private Vector2 lookInput;
     float rotationSpeed = 5f;
     private bool isRagdoll = false; // Flag to check if the character is in ragdoll mode
-    private float hitCount = 0;     // Counter for how many hits the character has taken
+    public float hitCount = 0;     // Counter for how many hits the character has taken
     private float maxHitCount = 10;
     public GameObject leftSlapCollider;
     public GameObject rightSlapCollider;
-    float cooldown = 0;
-    float maxTime = 2;
-    float slapTime = 0;
-
     public Animator ani;
     public bool isLeftSlapping;
     public bool isRightSlapping;
+    private float slapTimer = 0f;
+    private bool isSlapping = false;
 
     // Start is called before the first frame update
     void Start()
     {
-    
+
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         gravity = -2 * apexHeight / (Mathf.Pow(apexTime, 2));
@@ -79,7 +77,7 @@ public class PlayerController : MonoBehaviour
         leftSlapCollider = transform.GetChild(1).gameObject;
         rightSlapCollider = transform.GetChild(2).gameObject;
         leftSlapCollider.SetActive(false);
-        rightSlapCollider.SetActive(false); 
+        rightSlapCollider.SetActive(false);
     }
 
     // Update is called once per frame
@@ -92,7 +90,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Left Arm"))
         {
             Debug.Log("Input");
-        
+
             GrabObject();
 
             //      TryGrabObject();
@@ -107,9 +105,9 @@ public class PlayerController : MonoBehaviour
         CheckForGround();
 
         //OnDrawGizmos();
-        if(hitCount > maxHitCount)
+        if (hitCount > maxHitCount)
         {
-            float timer =+ Time.deltaTime;
+            float timer = +Time.deltaTime;
             if (timer > 10)
             {
                 hitCount = 0;
@@ -234,7 +232,7 @@ public class PlayerController : MonoBehaviour
                 grabbedRb.isKinematic = true; // Prevents physics interactions while held
                 Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
                 isGrabbing = true;
-                
+
 
             }
 
@@ -302,47 +300,40 @@ public class PlayerController : MonoBehaviour
     }
 
 
-   void Attack()
+    
+
+    void Attack()
     {
-     
-     
-            if(Input.GetButtonDown("Slap") && slapTime <1)
-            {
-                ani.SetBool("leftArm", true);
-                leftSlapCollider.SetActive(true);
-                slapTime += Time.deltaTime;
-            }
-        
-        if (slapTime >= 1)
+        if (Input.GetButtonDown("Slap") && !isSlapping)
         {
-            ani.SetBool("leftArm", false);
-            leftSlapCollider.SetActive(false);
-            cooldown += Time.deltaTime;
-        }
-        if(cooldown >= maxTime)
-        {
-            cooldown = 0;
-            slapTime = 0;
+            ani.SetBool("leftArm", true);
+            leftSlapCollider.SetActive(true);
+            isSlapping = true;
+            slapTimer = 0f; // Reset timer
         }
 
-     if( Input.GetButtonDown("SlapR") && slapTime < 1)
+        if (Input.GetButtonDown("SlapR") && !isSlapping)
+        {
+            ani.SetBool("rightArm", true);
+            rightSlapCollider.SetActive(true);
+            isSlapping = true;
+            slapTimer = 0f; // Reset timer
+        }
+
+        if (isSlapping)
+        {
+            slapTimer += Time.deltaTime;
+
+            if (slapTimer >= 1f) // Stop animation after 1 second
             {
-                ani.SetBool("rightArm", true);
-                rightSlapCollider.SetActive(true);
-                slapTime += Time.deltaTime;
-            }
-            if (slapTime >= 1)
-            {
+                ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
+                leftSlapCollider.SetActive(false);
                 rightSlapCollider.SetActive(false);
-                cooldown += Time.deltaTime;
-            }
-            if (cooldown >= maxTime)
-            {
-                cooldown = 0;
-                slapTime = 0;
+                isSlapping = false; // Allow next slap
             }
         }
     }
+}
 
 

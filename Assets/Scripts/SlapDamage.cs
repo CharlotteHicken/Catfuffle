@@ -5,14 +5,16 @@ using UnityEngine;
 public class SlapDamage : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    float damage = 1;
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            float hits = other.GetComponent<PlayerController>().hitCount;
+            hits =- damage;
+            Debug.Log(hits);
+        }
+       
     }
 }
