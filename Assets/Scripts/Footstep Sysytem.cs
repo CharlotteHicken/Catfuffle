@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class FootstepSysytem : MonoBehaviour
 {
-    public AudioSource FootSteps;
+    [SerializeField]
+    private AudioClip[] clips;
 
-    public void Update()
+    private AudioSource audioSource;
+
+    private void Awake()
     {
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
-        {
-            FootSteps.enabled = true;
-        }
-        else
-        {
-            FootSteps.enabled = false;
-        }
+        audioSource = GetComponent<AudioSource>();
     }
 
+    private void Step()
+    {
+        AudioClip clip = GetRandomClip();
+        audioSource.PlayOneShot(clip);
+    }
+
+    private AudioClip GetRandomClip()
+    {
+        return clips[Random.Range(0, clips.Length)];
+    }
 }

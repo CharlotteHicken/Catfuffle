@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
 
+    AudioaManager audioManager; 
+
     [Header("Movement Settings")]
     public float maxSpeed = 5;
     public float accelerateTime = 0.2f;
@@ -48,6 +50,11 @@ public class PlayerController : MonoBehaviour
     public string verticalControl;
     public string jumpButton;
 
+    // Turning on the sounds
+    private void Awake()
+    {
+       audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioaManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -137,6 +144,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!isGrounded)
         {
+            //plays jumping sfx
+            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y += gravity * Time.fixedDeltaTime;
         }
         else
@@ -184,7 +193,8 @@ public class PlayerController : MonoBehaviour
 
             if (grabbedRb)
             {
-
+                //plays grabbing sfx
+                audioManager.PlaySFX(audioManager.Grab);
                 //  hit.transform.SetParent(grabby.transform, true);
                 grabbedRb.useGravity = false;
                 grabbedRb.freezeRotation = true;
