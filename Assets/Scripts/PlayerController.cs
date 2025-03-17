@@ -39,8 +39,6 @@ public class PlayerController : MonoBehaviour
     public float pushForce = 5f;
     public float holdDistance = 1.5f;
     private Rigidbody grabbedRb;
-    private Vector3 objectOffset;
-    Vector3 directionToTarget;
     public GameObject grabby;
     private Collider grabbedCollider;
     //[Header("Controls")]
@@ -52,34 +50,44 @@ public class PlayerController : MonoBehaviour
     public Rigidbody[] bodyParts;  // All the body part rigidbodies for the ragdoll
     public Collider[] colliders;  // Colliders for ragdoll body parts
     public Animator animator;     // Animator of the character
-    private int hitCount = 10;     // Counter for how many hits the character has taken
-    public int maxHits = 10;      // Maximum hits before ragdolling
     public float resetTime = 10f; // Time to reset the character after ragdolling
     private Vector2 lookInput;
     float rotationSpeed = 5f;
     private bool isRagdoll = false; // Flag to check if the character is in ragdoll mode
+    private float hitCount = 0;     // Counter for how many hits the character has taken
+    private float maxHitCount = 10;
+    public GameObject leftSlapCollider;
+    public GameObject rightSlapCollider;
+    float cooldown = 0;
+    float maxTime = 2;
+    float slapTime = 0;
+
+    public Animator ani;
+    public bool isLeftSlapping;
+    public bool isRightSlapping;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Ensure body parts and colliders are set up (you can manually assign these in the inspector)
-        bodyParts = GetComponentsInChildren<Rigidbody>();
-        colliders = GetComponentsInChildren<Collider>();
+    
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        //rb.constraints = RigidbodyConstraints.FreezeRotation; // Prevent rolling but also stops movement uh oh
-        //currentRotation = transform.rotation;
-
         gravity = -2 * apexHeight / (Mathf.Pow(apexTime, 2));
         initialJumpSpeed = 2 * apexHeight / apexTime;
-
         acceleration = maxSpeed / accelerateTime;
         deceleration = maxSpeed / decelerateTime;
+        leftSlapCollider = transform.GetChild(1).gameObject;
+        rightSlapCollider = transform.GetChild(2).gameObject;
+        leftSlapCollider.SetActive(false);
+        rightSlapCollider.SetActive(false); 
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        Attack();
+
         Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
         if (Input.GetButtonDown("Left Arm"))
         {
@@ -99,27 +107,45 @@ public class PlayerController : MonoBehaviour
         CheckForGround();
 
         //OnDrawGizmos();
+        if(hitCount > maxHitCount)
+        {
+            float timer =+ Time.deltaTime;
+            if (timer > 10)
+            {
+                hitCount = 0;
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        velocity = rb.velocity;
-        RotatePlayer();
-        Vector3 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
+        if (hitCount <= maxHitCount)
+        {
+            velocity = rb.velocity;
+            if (lookInput.sqrMagnitude <= 1.0f)
+            {
+                RotatePlayer();
+            }
+            Vector3 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
 
-        MovementUpdate(playerInput);
+            MovementUpdate(playerInput);
+            lookInput = new Vector2(Input.GetAxis("Axis 3"), Input.GetAxis("Axis 4"));
 
-        JumpUpdate();
+            // Apply dead zone to prevent stick drift
+            if (lookInput.magnitude < 0.2f)
+                lookInput = Vector2.zero;
 
-        Rotate();
-        rb.velocity = new Vector3(velocity.x, velocity.y, velocity.z);
+            JumpUpdate();
+
+            Rotate();
+            rb.velocity = new Vector3(velocity.x, velocity.y, velocity.z);
+        }
     }
 
     private void MovementUpdate(Vector3 playerInput)
     {
         velocity.x = CalculateMovementInput(playerInput.x, velocity.x);
         velocity.z = CalculateMovementInput(playerInput.z, velocity.z);
-        lookInput = new Vector2(Input.GetAxis("RightStickHorizontal"), Input.GetAxis("RightStickVertical"));
 
     }
 
@@ -234,21 +260,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FaceObject()
-    {
-        if (grabbedRb)
-        {
-            Vector3 directionToTarget = (grabbedRb.position - rb.position).normalized;
-            directionToTarget.y = 0; // Prevents looking up/down
-
-            if (directionToTarget != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-                rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * rotateSpeed);
-            }
-        }
-    }
-
     private void PushObject()
     {
         if (grabbedRb)
@@ -276,88 +287,62 @@ public class PlayerController : MonoBehaviour
 
     void Rotate()
     {
-        if (lookInput.sqrMagnitude > 0.1f) // Ensure there's input
+        if (lookInput.sqrMagnitude > 0.01f) // Ensure there's input
         {
-            Vector3 lookDirection = new Vector3(lookInput.x, 0, lookInput.y);
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            Vector3 lookDirection = new Vector3(lookInput.x, 0, lookInput.y).normalized;
+
+            if (lookDirection != Vector3.zero) // Prevent rotation errors
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+                // rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime));
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            }
+        }
+    }
+
+
+   void Attack()
+    {
+     
+     
+            if(Input.GetButtonDown("Slap") && slapTime <1)
+            {
+                ani.SetBool("leftArm", true);
+                leftSlapCollider.SetActive(true);
+                slapTime += Time.deltaTime;
+            }
+        
+        if (slapTime >= 1)
+        {
+            ani.SetBool("leftArm", false);
+            leftSlapCollider.SetActive(false);
+            cooldown += Time.deltaTime;
+        }
+        if(cooldown >= maxTime)
+        {
+            cooldown = 0;
+            slapTime = 0;
         }
 
-        // Call this method when the character is hit
-        /* public void OnHit()
-         {
-             hitCount++;
-
-             if (hitCount >= maxHits && !isRagdoll)
-             {
-                 // Enable ragdoll when hit count reaches maxHits
-                 EnableRagdoll();
-
-                 // Start the reset coroutine
-                 StartCoroutine(ResetAfterDelay());
-             }
-         }
-
-         // Enable ragdoll physics
-         void EnableRagdoll()
-         {
-             // Disable the animator to prevent it from interfering with ragdoll physics
-             if (animator != null)
-             {
-                 animator.enabled = false;
-             }
-
-             // Enable ragdoll (set Rigidbody to non-kinematic)
-             foreach (Rigidbody rb in bodyParts)
-             {
-                 rb.isKinematic = false;
-             }
-
-             // Enable colliders for all body parts
-             foreach (Collider col in colliders)
-             {
-                 col.enabled = true;
-             }
-
-             isRagdoll = true;
-         }
-
-         // Disable ragdoll and reset the character
-         void DisableRagdoll()
-         {
-             // Re-enable the animator
-             if (animator != null)
-             {
-                 animator.enabled = true;
-             }
-
-             // Set Rigidbody to kinematic (back to normal state)
-             foreach (Rigidbody rb in bodyParts)
-             {
-                 rb.isKinematic = true;
-             }
-
-             // Disable colliders for ragdoll parts
-             foreach (Collider col in colliders)
-             {
-                 col.enabled = false;
-             }
-
-             isRagdoll = false;
-         }
-
-         // Coroutine to reset the character after the ragdoll knock-out
-         IEnumerator ResetAfterDelay()
-         {
-             // Wait for the specified reset time
-             yield return new WaitForSeconds(resetTime);
-
-             // Reset the character to standing position and disable ragdoll
-             DisableRagdoll();
-
-         }*/
-
-        // Reset the character's position or state after ragdoll
-
+     if( Input.GetButtonDown("SlapR") && slapTime < 1)
+            {
+                ani.SetBool("rightArm", true);
+                rightSlapCollider.SetActive(true);
+                slapTime += Time.deltaTime;
+            }
+            if (slapTime >= 1)
+            {
+                ani.SetBool("rightArm", false);
+                rightSlapCollider.SetActive(false);
+                cooldown += Time.deltaTime;
+            }
+            if (cooldown >= maxTime)
+            {
+                cooldown = 0;
+                slapTime = 0;
+            }
+        }
     }
-}
+
+
