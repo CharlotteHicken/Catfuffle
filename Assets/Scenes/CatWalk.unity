@@ -2048,6 +2048,7 @@ GameObject:
   - component: {fileID: 1233781341}
   - component: {fileID: 1233781340}
   - component: {fileID: 1233781344}
+  - component: {fileID: 1233781345}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -2168,6 +2169,48 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1233781345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233781339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd8a6df075600d4a97184d6a0edafa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 5
+  accelerateTime: 0.2
+  decelerateTime: 0.2
+  rotateSpeed: 0
+  apexHeight: 3
+  apexTime: 0.5
+  maxVelocity: 15
+  groundCheckOffset: 0.5
+  groundCheckSize: {x: 0.4, y: 0.1, z: 0}
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
+  grabbedObject: {fileID: 0}
+  grabRange: 8
+  pushForce: 5
+  holdDistance: 1.5
+  grabby: {fileID: 0}
+  horizontalControl: 
+  verticalControl: 
+  jumpButton: 
+  bodyParts: []
+  colliders: []
+  animator: {fileID: 0}
+  resetTime: 10
+  hitCount: 0
+  leftSlapCollider: {fileID: 0}
+  rightSlapCollider: {fileID: 0}
+  ani: {fileID: 0}
+  isLeftSlapping: 0
+  isRightSlapping: 0
 --- !u!1 &1377023341
 GameObject:
   m_ObjectHideFlags: 0
