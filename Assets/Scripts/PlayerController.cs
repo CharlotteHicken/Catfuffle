@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Rotate();
         if (hitCount <= maxHitCount)
         {
             velocity = rb.velocity;
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
             JumpUpdate();
 
-            Rotate();
+            
             rb.velocity = new Vector3(velocity.x, velocity.y, velocity.z);
         }
     }
@@ -298,9 +299,10 @@ public class PlayerController : MonoBehaviour
 
             if (lookDirection != Vector3.zero) // Prevent rotation errors
             {
-                Quaternion targetRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+                currentRotation  = Quaternion.LookRotation(lookDirection, Vector3.up);
                 // rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime));
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+               // currentRotation = Quaternion.Slerp(transform.rotation, currentRotation,( rotationSpeed *3) * Time.deltaTime);
+               transform.rotation = Quaternion.Slerp(transform.rotation, currentRotation, (rotationSpeed) * Time.deltaTime);
 
             }
         }
