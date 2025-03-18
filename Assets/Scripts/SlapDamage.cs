@@ -14,6 +14,7 @@ public class SlapDamage : MonoBehaviour
             float hits = other.GetComponent<PlayerController>().hitCount;
             hits =- damage;
             Debug.Log(hits);
+            Debug.Log(other.name);
         }
        
     }
