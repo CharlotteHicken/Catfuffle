@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     public bool isRightSlapping;
     private float slapTimer = 0f;
     private bool isSlapping = false;
-
+    public AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +81,11 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
+    private void Awake()
+    {
+       audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Update()
     {
 
@@ -120,7 +125,7 @@ public class PlayerController : MonoBehaviour
         if (hitCount <= maxHitCount)
         {
             velocity = rb.velocity;
-            if (lookInput.sqrMagnitude <= 1.0f)
+            if (lookInput.sqrMagnitude <= 2.0f)
             {
                 RotatePlayer();
             }
@@ -177,6 +182,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isGrounded)
         {
+            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y += gravity * Time.fixedDeltaTime;
         }
         else
@@ -262,6 +268,7 @@ public class PlayerController : MonoBehaviour
     {
         if (grabbedRb)
         {
+          audioManager.PlaySFX(audioManager.Grab);
             grabbedRb.isKinematic = false; // Reactivate physics for push
             grabbedRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
             ReleaseObject(); // Let go after pushing
