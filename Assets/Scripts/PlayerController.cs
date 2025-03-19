@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(Input.GetButton("Right Arm"));
         Attack();
         SlappedOut();
-        if (grabbedRb != null)
+        if (grabbedRb != null) //THROWING WHEN GRABBED.
         {
             if (Input.GetButtonDown("Right Arm"))
             {
