@@ -58,14 +58,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.2315272
-        functionName: NewEvent
+        functionName: Start
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.7586208
-        functionName: NewEvent
+        functionName: End
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
