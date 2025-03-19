@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     float deceleration;
     public float rotateSpeed;
     Quaternion currentRotation;
+    Vector3 playerInput;
 
     [Header("Jump Settings")]
     float gravity;
@@ -55,7 +57,7 @@ public class PlayerController : MonoBehaviour
     float rotationSpeed = 5f;
     private bool isRagdoll = false; // Flag to check if the character is in ragdoll mode
     public float hitCount = 0;     // Counter for how many hits the character has taken
-    private float maxHitCount = 10;
+    public float maxHitCount = 10;
     public GameObject leftSlapCollider;
     public GameObject rightSlapCollider;
     public Animator ani;
@@ -65,6 +67,9 @@ public class PlayerController : MonoBehaviour
     private bool isSlapping = false;
     public AudioManager audioManager;
     // Start is called before the first frame update
+    float timer;
+
+    PlayerController otherPlayer;
     void Start()
     {
 
@@ -74,8 +79,6 @@ public class PlayerController : MonoBehaviour
         initialJumpSpeed = 2 * apexHeight / apexTime;
         acceleration = maxSpeed / accelerateTime;
         deceleration = maxSpeed / decelerateTime;
-        leftSlapCollider = transform.GetChild(1).gameObject;
-        rightSlapCollider = transform.GetChild(2).gameObject;
         leftSlapCollider.SetActive(false);
         rightSlapCollider.SetActive(false);
     }
@@ -88,25 +91,34 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+        Debug.Log(Input.GetButton("Right Arm"));
         Attack();
-
+        SlappedOut();
+        if (grabbedRb != null) //THROWING WHEN GRABBED.
+        {
+            if (Input.GetButtonDown("Right Arm"))
+            {
+                Debug.Log("Pressed");
+                PushObject();
+            }
+        }
         Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
         if (Input.GetButtonDown("Left Arm"))
         {
             Debug.Log("Input");
 
             GrabObject();
-
+           
             //      TryGrabObject();
         }
 
         if (isGrabbing) MoveGrabbedObject();
 
-        if (Input.GetButtonUp("Left Arm") || Input.GetButtonUp("Right Arm"))
+        if (Input.GetButtonUp("Left Arm") || otherPlayer.hitCount < 10) 
         {
             ReleaseObject();
         }
+   
         CheckForGround();
 
         //OnDrawGizmos();
@@ -122,27 +134,30 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Rotate();
-        if (hitCount <= maxHitCount)
+        if (hitCount != maxHitCount)
         {
-            velocity = rb.velocity;
-            if (lookInput.sqrMagnitude <= 2.0f)
+            Rotate();
+            if (hitCount <= maxHitCount)
             {
-                RotatePlayer();
+                velocity = rb.velocity;
+                if (lookInput.sqrMagnitude <= 2.0f)
+                {
+                    RotatePlayer();
+                }
+                playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
+
+                MovementUpdate(playerInput);
+                lookInput = new Vector2(Input.GetAxis("Axis 3"), Input.GetAxis("Axis 4"));
+
+                // Apply dead zone to prevent stick drift
+                if (lookInput.magnitude < 0.2f)
+                    lookInput = Vector2.zero;
+
+                JumpUpdate();
+
+
+                rb.velocity = new Vector3(velocity.x, velocity.y, velocity.z);
             }
-            Vector3 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
-
-            MovementUpdate(playerInput);
-            lookInput = new Vector2(Input.GetAxis("Axis 3"), Input.GetAxis("Axis 4"));
-
-            // Apply dead zone to prevent stick drift
-            if (lookInput.magnitude < 0.2f)
-                lookInput = Vector2.zero;
-
-            JumpUpdate();
-
-            
-            rb.velocity = new Vector3(velocity.x, velocity.y, velocity.z);
         }
     }
 
@@ -183,6 +198,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isGrounded)
         {
+            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y += gravity * Time.fixedDeltaTime;
         }
         else
@@ -194,7 +210,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetButton(jumpButton))
         {
             Debug.Log("Jump!");
-            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y = initialJumpSpeed;
             isGrounded = false;
         }
@@ -222,40 +237,59 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
         {
-            if (hit.collider.CompareTag("Player")) // Object must have "obj" tag
+            if (hit.collider.CompareTag("Downed"))
+            {// Object must have "obj" tag
                 Debug.Log("Button pressed");
 
 
-            grabbedRb = hit.collider.GetComponent<Rigidbody>();
-            grabbedCollider = hit.collider; // Store object collider
+                grabbedRb = hit.collider.GetComponent<Rigidbody>();
+                grabbedCollider = hit.collider; // Store object collider
+                otherPlayer = grabbedRb.GetComponent<PlayerController>();
+                if (grabbedRb)
+                {
 
-            if (grabbedRb)
-            {
-                audioManager.PlaySFX(audioManager.Grab);
-                //  hit.transform.SetParent(grabby.transform, true);
-                grabbedRb.useGravity = false;
-                grabbedRb.freezeRotation = true;
-                grabbedRb.interpolation = RigidbodyInterpolation.Interpolate; // Smooth Movement
-                grabbedRb.isKinematic = true; // Prevents physics interactions while held
-                Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
-                isGrabbing = true;
+                    //  hit.transform.SetParent(grabby.transform, true);
+                    grabbedRb.useGravity = false;
+                    grabbedRb.freezeRotation = true;
+                    grabbedRb.interpolation = RigidbodyInterpolation.Interpolate; // Smooth Movement
+                    grabbedRb.isKinematic = true; // Prevents physics interactions while held
+                    Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
+                    isGrabbing = true;
+
+                   
+                }
 
 
-            }
-
-
-            if (Input.GetButtonUp("Left Arm") || Input.GetButtonUp("Right Arm"))
-            {
-                grabbedObject.GetComponent<Rigidbody>().interpolation = objInterpolation;
-                grabbedObject = null;
+                if (Input.GetButtonUp("Left Arm"))
+                {
+                    grabbedObject.GetComponent<Rigidbody>().interpolation = objInterpolation;
+                    grabbedObject = null;
+                }
             }
         }
     }
 
 
 
+  void SlappedOut()
+    {
+       
+        
+        if(hitCount>=maxHitCount && timer<10)
+        {
+            gameObject.tag = "Downed";
+            Debug.Log(timer);
+            timer += Time.deltaTime;
+            playerInput = transform.position;
 
-
+        }
+        if (timer >=10 )
+        {
+            timer = 0;
+            hitCount = 0;
+        }
+    }
+    
     private void MoveGrabbedObject()
     {
         if (grabbedRb)
@@ -264,20 +298,25 @@ public class PlayerController : MonoBehaviour
             grabbedRb.position = Vector3.Lerp(grabbedRb.position, targetPosition, Time.deltaTime * maxSpeed);
         }
     }
-
+    
     private void PushObject()
     {
-        if (grabbedRb)
-        {
+        float verticalBoost = 4f;
+        float throwRange = 7f;
+          audioManager.PlaySFX(audioManager.Grab);
             grabbedRb.isKinematic = false; // Reactivate physics for push
-            grabbedRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+        Vector3 throwDirection = transform.forward * throwRange;
+        throwDirection.y = 0; // Ensure knockback is mostly horizontal
+        Vector3 finalForce = (throwDirection * throwRange) + (Vector3.up * verticalBoost);
+        grabbedRb.AddForce(finalForce, ForceMode.Impulse);
+     //   grabbedRb.AddForce(transform.forward , ForceMode.Impulse);
             ReleaseObject(); // Let go after pushing
-        }
-    }
+        
+    } 
 
     private void ReleaseObject()
     {
-        if (grabbedRb)
+        if (grabbedRb )
         {
             grabbedRb.useGravity = true;
             grabbedRb.freezeRotation = false;
@@ -314,7 +353,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Slap") && !isSlapping)
         {
-            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
             isSlapping = true;
@@ -323,7 +361,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("SlapR") && !isSlapping)
         {
-            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
             isSlapping = true;
@@ -332,7 +369,6 @@ public class PlayerController : MonoBehaviour
 
         if (isSlapping)
         {
-            //audioManager.PlaySFX(audioManager.Hitting);
             slapTimer += Time.deltaTime;
 
             if (slapTimer >= 1f) // Stop animation after 1 second
