@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
                 }
                 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
 
-                MovementUpdate(playerInput);
+                MovementUpdate(playerInput); 
                 lookInput = new Vector2(Input.GetAxis("Axis 3"), Input.GetAxis("Axis 4"));
 
                 // Apply dead zone to prevent stick drift
@@ -165,7 +165,6 @@ public class PlayerController : MonoBehaviour
     {
         velocity.x = CalculateMovementInput(playerInput.x, velocity.x);
         velocity.z = CalculateMovementInput(playerInput.z, velocity.z);
-
     }
 
     private float CalculateMovementInput(float input, float velocity)
@@ -198,7 +197,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y += gravity * Time.fixedDeltaTime;
         }
         else
@@ -210,6 +208,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetButton(jumpButton))
         {
             Debug.Log("Jump!");
+            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y = initialJumpSpeed;
             isGrounded = false;
         }
@@ -278,6 +277,7 @@ public class PlayerController : MonoBehaviour
         if(hitCount>=maxHitCount && timer<10)
         {
             gameObject.tag = "Downed";
+            audioManager.PlaySFX(audioManager.DeathMeow);
             Debug.Log(timer);
             timer += Time.deltaTime;
             playerInput = transform.position;
@@ -353,6 +353,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Slap") && !isSlapping)
         {
+            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
             isSlapping = true;
@@ -361,6 +362,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("SlapR") && !isSlapping)
         {
+            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
             isSlapping = true;

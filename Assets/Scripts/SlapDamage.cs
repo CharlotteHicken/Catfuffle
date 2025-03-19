@@ -10,11 +10,19 @@ public class Knockback : MonoBehaviour
     private Renderer playerRenderer;
     private Color originalColor;
     public float flashDuration = 0.2f;
+    public AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
         if (player != null)
         {
+            audioManager.PlaySFX(audioManager.Hitting );
             // Apply damage
             player.hitCount += damage;
 

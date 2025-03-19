@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip Jumping;
     public AudioClip Swinging;
     public AudioClip Walking;
+    public AudioClip DeathMeow;
 
     public void PlaySFX(AudioClip clip)
     {
