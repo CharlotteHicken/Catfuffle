@@ -332,7 +332,7 @@ public class PlayerController : MonoBehaviour
 
         if (isSlapping)
         {
-            audioManager.PlaySFX(audioManager.Hitting);
+            //audioManager.PlaySFX(audioManager.Hitting);
             slapTimer += Time.deltaTime;
 
             if (slapTimer >= 1f) // Stop animation after 1 second
