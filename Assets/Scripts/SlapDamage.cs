@@ -36,9 +36,10 @@ public class Knockback : MonoBehaviour
 
 
                     TakeDamage();
-                    StopAllCoroutines();
+                    
                 }
             }
+            StopAllCoroutines();
 
             Debug.Log("Player Hit: " + other.name + " | Hits Taken: " + player.hitCount);
         }
