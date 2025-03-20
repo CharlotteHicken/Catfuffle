@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Debug.Log(Input.GetButton("Right Arm"));
+        CheckForGround();
         Attack();
         SlappedOut();
         if (grabbedRb != null) //THROWING WHEN GRABBED.
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour
             ReleaseObject();
         }
    
-        CheckForGround();
+       
 
         //OnDrawGizmos();
         if (hitCount > maxHitCount)
@@ -302,7 +303,7 @@ public class PlayerController : MonoBehaviour
     private void PushObject()
     {
         float verticalBoost = 4f;
-        float throwRange = 7f;
+        float throwRange = 4f;
           audioManager.PlaySFX(audioManager.Grab);
             grabbedRb.isKinematic = false; // Reactivate physics for push
         Vector3 throwDirection = transform.forward * throwRange;
@@ -351,7 +352,7 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetButtonDown("Slap") && !isSlapping)
+        if (Input.GetButtonDown("Slap") )
         {
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
@@ -359,7 +360,7 @@ public class PlayerController : MonoBehaviour
             slapTimer = 0f; // Reset timer
         }
 
-        if (Input.GetButtonDown("SlapR") && !isSlapping)
+        if (Input.GetButtonDown("SlapR"))
         {
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
@@ -371,7 +372,7 @@ public class PlayerController : MonoBehaviour
         {
             slapTimer += Time.deltaTime;
 
-            if (slapTimer >= 1f) // Stop animation after 1 second
+            if (slapTimer >= 0.2f) // Stop animation after 1 second
             {
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
