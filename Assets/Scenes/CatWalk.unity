@@ -182,9 +182,11 @@ MonoBehaviour:
   accelerateTime: 0.2
   decelerateTime: 0.2
   rotateSpeed: 5
+  gravity: 0
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
+  isGrounded: 0
   groundCheckOffset: 1.11
   groundCheckSize: {x: 0.75, y: 0.14, z: 0.36}
   groundCheckMask:
@@ -198,6 +200,12 @@ MonoBehaviour:
   horizontalControl: Horizontal1
   verticalControl: Vertical1
   jumpButton: Jump1
+  slapL: SlapL1
+  slapR: SlapR1
+  leftArm: LeftArm1
+  rightArm: RightArm1
+  stickHorizontal: StickHorizontal1
+  stickVertical: StickVertical1
   bodyParts: []
   colliders: []
   animator: {fileID: 0}
@@ -1248,9 +1256,11 @@ MonoBehaviour:
   accelerateTime: 0.2
   decelerateTime: 0.2
   rotateSpeed: 5
+  gravity: 0
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
+  isGrounded: 0
   groundCheckOffset: 1.11
   groundCheckSize: {x: 0.75, y: 0.14, z: 0.36}
   groundCheckMask:
@@ -1264,6 +1274,12 @@ MonoBehaviour:
   horizontalControl: Horizontal3
   verticalControl: Vertical3
   jumpButton: Jump3
+  slapL: 
+  slapR: 
+  leftArm: 
+  rightArm: 
+  stickHorizontal: 
+  stickVertical: 
   bodyParts: []
   colliders: []
   animator: {fileID: 0}
@@ -1713,9 +1729,11 @@ MonoBehaviour:
   accelerateTime: 0.2
   decelerateTime: 0.2
   rotateSpeed: 5
+  gravity: 0
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
+  isGrounded: 0
   groundCheckOffset: 1.11
   groundCheckSize: {x: 0.75, y: 0.14, z: 0.36}
   groundCheckMask:
@@ -1729,6 +1747,12 @@ MonoBehaviour:
   horizontalControl: Horizontal2
   verticalControl: Vertical2
   jumpButton: Jump2
+  slapL: 
+  slapR: 
+  leftArm: 
+  rightArm: 
+  stickHorizontal: 
+  stickVertical: 
   bodyParts: []
   colliders: []
   animator: {fileID: 0}
@@ -2284,9 +2308,11 @@ MonoBehaviour:
   accelerateTime: 0.2
   decelerateTime: 0.2
   rotateSpeed: 0
+  gravity: 0
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
+  isGrounded: 0
   groundCheckOffset: 0.5
   groundCheckSize: {x: 0.4, y: 0.1, z: 0}
   groundCheckMask:
@@ -2300,6 +2326,12 @@ MonoBehaviour:
   horizontalControl: 
   verticalControl: 
   jumpButton: 
+  slapL: 
+  slapR: 
+  leftArm: 
+  rightArm: 
+  stickHorizontal: 
+  stickVertical: 
   bodyParts: []
   colliders: []
   animator: {fileID: 0}
@@ -2493,9 +2525,11 @@ MonoBehaviour:
   accelerateTime: 0.2
   decelerateTime: 0.2
   rotateSpeed: 5
+  gravity: 0
   apexHeight: 3
   apexTime: 0.5
   maxVelocity: 15
+  isGrounded: 0
   groundCheckOffset: 1.11
   groundCheckSize: {x: 0.75, y: 0.14, z: 0.36}
   groundCheckMask:
@@ -2509,6 +2543,12 @@ MonoBehaviour:
   horizontalControl: Horizontal4
   verticalControl: Vertical4
   jumpButton: Jump4
+  slapL: 
+  slapR: 
+  leftArm: 
+  rightArm: 
+  stickHorizontal: 
+  stickVertical: 
   bodyParts: []
   colliders: []
   animator: {fileID: 0}
@@ -4502,8 +4542,8 @@ SceneRoots:
   - {fileID: 1123303624}
   - {fileID: 1658163045}
   - {fileID: 100525035}
+  - {fileID: 1101946124}
   - {fileID: 798008482}
   - {fileID: 1377023347}
-  - {fileID: 1101946124}
   - {fileID: 1233781343}
   - {fileID: 1329248261}

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
 
+    [SerializeField]
     [Header("Movement Settings")]
     public float maxSpeed = 5;
     public float accelerateTime = 0.2f;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     Quaternion currentRotation;
     Vector3 playerInput;
 
+    [SerializeField]
     [Header("Jump Settings")]
     float gravity;
     float initialJumpSpeed;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public float apexTime = 0.5f;
     public float maxVelocity = 15f;
 
+    [SerializeField]
     [Header("Ground Check Settings")]
     bool isGrounded = false;
     public float groundCheckOffset = 0.5f;
@@ -32,6 +36,8 @@ public class PlayerController : MonoBehaviour
 
     //[SerializeField]
     Vector3 velocity;
+
+    [SerializeField]
     [Header("Grabbing Variables")]
     public RaycastHit hit;
     public GameObject grabbedObject;
@@ -43,11 +49,20 @@ public class PlayerController : MonoBehaviour
     private Rigidbody grabbedRb;
     public GameObject grabby;
     private Collider grabbedCollider;
-    //[Header("Controls")]
+
+    [SerializeField]
+    [Header("Controls")]
     public string horizontalControl;
     public string verticalControl;
     public string jumpButton;
+    public string slapL;
+    public string slapR;
+    public string leftArm;
+    public string rightArm;
+    public string stickHorizontal;
+    public string stickVertical;
 
+    [SerializeField]
     [Header("Health/Slapping Variables")]
     public Rigidbody[] bodyParts;  // All the body part rigidbodies for the ragdoll
     public Collider[] colliders;  // Colliders for ragdoll body parts
@@ -91,19 +106,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Input.GetButton("Right Arm"));
+        Debug.Log(Input.GetButton(rightArm));
         Attack();
         SlappedOut();
         if (grabbedRb != null) //THROWING WHEN GRABBED.
         {
-            if (Input.GetButtonDown("Right Arm"))
+            if (Input.GetButtonDown(rightArm))
             {
                 Debug.Log("Pressed");
                 PushObject();
             }
         }
         Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
-        if (Input.GetButtonDown("Left Arm"))
+        if (Input.GetButtonDown(leftArm))
         {
             Debug.Log("Input");
 
@@ -114,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrabbing) MoveGrabbedObject();
 
-        if (Input.GetButtonUp("Left Arm") || otherPlayer.hitCount < 10) 
+        if (Input.GetButtonUp(leftArm) || otherPlayer.hitCount < 10) 
         {
             ReleaseObject();
         }
@@ -147,7 +162,7 @@ public class PlayerController : MonoBehaviour
                 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
 
                 MovementUpdate(playerInput);
-                lookInput = new Vector2(Input.GetAxis("Axis 3"), Input.GetAxis("Axis 4"));
+                lookInput = new Vector2(Input.GetAxis(stickHorizontal), Input.GetAxis(stickVertical));
 
                 // Apply dead zone to prevent stick drift
                 if (lookInput.magnitude < 0.2f)
@@ -351,7 +366,7 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetButtonDown("Slap") && !isSlapping)
+        if (Input.GetButtonDown(slapL) && !isSlapping)
         {
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
@@ -359,7 +374,7 @@ public class PlayerController : MonoBehaviour
             slapTimer = 0f; // Reset timer
         }
 
-        if (Input.GetButtonDown("SlapR") && !isSlapping)
+        if (Input.GetButtonDown(slapR) && !isSlapping)
         {
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
