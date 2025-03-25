@@ -175,6 +175,7 @@ public class PlayerController : MonoBehaviour
         {
             velocity += acceleration * input * Time.fixedDeltaTime;
             velocity = Mathf.Clamp(velocity, -maxSpeed, maxSpeed);
+            
         }
         else
         {
@@ -199,7 +200,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y += gravity * Time.fixedDeltaTime;
         }
         else
@@ -210,9 +210,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
         if (isGrounded && Input.GetButton(jumpButton))
         {
+            audioManager.PlaySFX(audioManager.Jumping);
+            ani.SetBool("isJumping", true);
             Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
+        }
+        else
+        {
+            ani.SetBool("isJumping", false);    
         }
 
         // Clamp falling speed to terminal velocity
@@ -248,7 +254,7 @@ public class PlayerController : MonoBehaviour
                 otherPlayer = grabbedRb.GetComponent<PlayerController>();
                 if (grabbedRb)
                 {
-
+                    audioManager.PlaySFX(audioManager.Grab);
                     //  hit.transform.SetParent(grabby.transform, true);
                     grabbedRb.useGravity = false;
                     grabbedRb.freezeRotation = true;
@@ -278,6 +284,7 @@ public class PlayerController : MonoBehaviour
         
         if(hitCount>=maxHitCount && timer<10)
         {
+            audioManager.PlaySFX(audioManager.Death);
             gameObject.tag = "Downed";
             Debug.Log(timer);
             timer += Time.deltaTime;
@@ -354,6 +361,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Slap") )
         {
+            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
             isSlapping = true;
@@ -362,6 +370,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("SlapR"))
         {
+            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
             isSlapping = true;
