@@ -211,14 +211,9 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetButton(jumpButton))
         {
             audioManager.PlaySFX(audioManager.Jumping);
-            ani.SetBool("isJumping", true);
             Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
-        }
-        else
-        {
-            ani.SetBool("isJumping", false);    
         }
 
         // Clamp falling speed to terminal velocity
