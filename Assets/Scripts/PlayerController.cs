@@ -238,7 +238,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
         {
-            if (hit.collider.CompareTag("Downed"))
+            if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
             {// Object must have "obj" tag
                 Debug.Log("Button pressed");
 
