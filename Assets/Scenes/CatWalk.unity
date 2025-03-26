@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4970928777127787152, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7091183267987761685, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: verticalBoost
       value: 10
