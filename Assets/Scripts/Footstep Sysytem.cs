@@ -2,27 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FootstepSoundManager : MonoBehaviour
+public class FootstepSysytem : MonoBehaviour
 {
-    public AudioClip footstepSoundR;
-    public AudioClip footstepSoundL;
-    private AudioSource audioSource;
+    public AudioSource FootSteps;
 
-    void Start()
+    public void Update()
     {
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = footstepSoundL;
-        audioSource.playOnAwake = false; 
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            FootSteps.enabled = true;
+        }
+        else
+        {
+            FootSteps.enabled = false;
+        }
     }
 
-    public void PlayFootstepSoundL()
-    {
-        Debug.Log("hi");
-        audioSource.PlayOneShot(footstepSoundL);
-    }
-
-    public void PlayFootstepSoundR()
-    {
-        audioSource.PlayOneShot(footstepSoundR);
-    }
 }
