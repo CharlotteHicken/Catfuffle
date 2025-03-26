@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
         //OnDrawGizmos();
         if (hitCount > maxHitCount)
         {
+            rb.useGravity = true;
             float timer = +Time.deltaTime;
             if (timer > 10)
             {
@@ -150,8 +151,10 @@ public class PlayerController : MonoBehaviour
         if (hitCount != maxHitCount)
         {
             Rotate();
+           
             if (hitCount <= maxHitCount)
             {
+                rb.useGravity = false;
                 velocity = rb.velocity;
                 if (lookInput.sqrMagnitude <= 2.0f)
                 {
@@ -197,14 +200,19 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
-        Vector3 movementDirection = new Vector3(velocity.x, 0, velocity.z);
+        if (lookInput.sqrMagnitude < 0.01f)
+        { // Ensure there's input
 
-        if (movementDirection.sqrMagnitude > 0.0001f) // Only update rotation when moving
-        {
-            currentRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+
+            Vector3 movementDirection = new Vector3(velocity.x, 0, velocity.z);
+
+            if (movementDirection.sqrMagnitude > 0.0001f) // Only update rotation when moving
+            {
+                currentRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+            }
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, currentRotation, Time.deltaTime * rotateSpeed);
         }
-
-        transform.rotation = Quaternion.Lerp(transform.rotation, currentRotation, Time.deltaTime * rotateSpeed);
     }
 
     private void JumpUpdate()
@@ -245,13 +253,14 @@ public class PlayerController : MonoBehaviour
         // Visualize the box with Gizmos at the check position
         Gizmos.color = Color.green; // Set the color for the gizmo
         Gizmos.DrawWireCube(boxPosition, groundCheckSize); // Draw a wireframe box
+       
     }
     private void GrabObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
+        if (Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation,holdDistance))
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
-            {// Object must have "obj" tag
+            {// Object must have "downed" tag
                 Debug.Log("Button pressed");
 
 
@@ -294,7 +303,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log(timer);
             timer += Time.deltaTime;
             playerInput = transform.position;
-
+            rb.useGravity = true;
         }
         if (timer >=10 )
         {
@@ -384,7 +393,7 @@ public class PlayerController : MonoBehaviour
         {
             slapTimer += Time.deltaTime;
 
-            if (slapTimer >= 0.2f) // Stop animation after 1 second
+            if (slapTimer >= 1f) // Stop animation after 1 second
             {
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
