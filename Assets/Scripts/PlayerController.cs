@@ -393,7 +393,7 @@ public class PlayerController : MonoBehaviour
         {
             slapTimer += Time.deltaTime;
 
-            if (slapTimer >= 1f) // Stop animation after 1 second
+            if (slapTimer >= 0.2f) // Stop animation after 1 second
             {
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
