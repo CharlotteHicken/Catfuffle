@@ -5,8 +5,8 @@ using UnityEngine;
 public class Knockback : MonoBehaviour
 {
     public float damage = 1f;
-    public float knockbackStrength = 5f;  // Increase for stronger effect
-    public float verticalBoost = 3f;  // Controls how much the player jumps
+    public float knockbackStrength = 10f;  // Increase for stronger effect
+    public float verticalBoost = 2f;  // Controls how much the player jumps
     private Renderer playerRenderer;
     private Color originalColor;
     public float flashDuration = 0.2f;
@@ -30,9 +30,8 @@ public class Knockback : MonoBehaviour
             Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
-                knockbackDirection.y = 0; // Ensure knockback is mostly horizontal
-                Vector3 finalForce = (knockbackDirection * knockbackStrength) + (Vector3.up * verticalBoost);
+                Vector3 knockbackDirection = (transform.position + transform.forward).normalized;
+                Vector3 finalForce = (knockbackDirection * knockbackStrength + Vector3.forward) + (Vector3.up * verticalBoost);
                 rb.AddForce(finalForce, ForceMode.Impulse);
                 if (player.hitCount == player.maxHitCount)
                 {

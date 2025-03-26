@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: a72d0a58b8bbde7428667fdeaf8ad4c6
+<<<<<<<< HEAD:Assets/Art/Animations/CurrentANI/LeftSlap.fbx.meta
+guid: b56c1b30d6ddc1f498005f0ce91468a9
+========
+guid: 2942c46a745629149b9e5479c66b6487
+>>>>>>>> mainrealbranch:Assets/Art/Animations/LeftSlap 2.fbx.meta
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
