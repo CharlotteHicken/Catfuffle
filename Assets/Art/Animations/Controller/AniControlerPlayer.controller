@@ -36,6 +36,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: leftArm
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: rightArm
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1384921034166507270}
   m_Solo: 0
@@ -83,7 +86,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jumping_Loop
-  m_Speed: 1
+  m_Speed: 4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 838370516626748217}
@@ -266,7 +269,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Idle
-  m_Speed: 2
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4113195716030787169}
@@ -458,6 +461,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: rightArm
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: leftArm
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8591369960454668162}
   m_Solo: 0
@@ -483,7 +489,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -944530407291550674}
-    m_Position: {x: -260, y: 130, z: 0}
+    m_Position: {x: -300, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1384921034166507270}
     m_Position: {x: -230, y: 390, z: 0}
