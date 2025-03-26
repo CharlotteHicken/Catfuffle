@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7091183267987761685, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: knockbackStrength
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7713804083571539975, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: verticalBoost
@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7713804083571539975, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: knockbackStrength
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8784357040386062207, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: m_LocalPosition.x
@@ -837,7 +837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3001235498939060325, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: knockbackStrength
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4970928777127787152, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: m_Name
@@ -849,7 +849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375131818241673556, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: knockbackStrength
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8784357040386062207, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: m_LocalPosition.x
