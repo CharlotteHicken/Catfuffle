@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
 
+    [SerializeField]
     [Header("Movement Settings")]
     public float maxSpeed = 5;
     public float accelerateTime = 0.2f;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     Quaternion currentRotation;
     Vector3 playerInput;
 
+    [SerializeField]
     [Header("Jump Settings")]
     float gravity;
     float initialJumpSpeed;
@@ -24,13 +26,14 @@ public class PlayerController : MonoBehaviour
     public float apexTime = 0.5f;
     public float maxVelocity = 15f;
 
+    [SerializeField]
     [Header("Ground Check Settings")]
     bool isGrounded = false;
     public float groundCheckOffset = 0.5f;
     public Vector3 groundCheckSize = new(0.4f, 0.1f);
     public LayerMask groundCheckMask;
 
-    //[SerializeField]
+    [SerializeField]
     Vector3 velocity;
     [Header("Grabbing Variables")]
     public RaycastHit hit;
@@ -43,11 +46,20 @@ public class PlayerController : MonoBehaviour
     private Rigidbody grabbedRb;
     public GameObject grabby;
     private Collider grabbedCollider;
-    //[Header("Controls")]
+
+    [SerializeField]
+    [Header("Controls")]
     public string horizontalControl;
     public string verticalControl;
     public string jumpButton;
+    public string leftArm;
+    public string rightArm;
+    public string slapL;
+    public string slapR;
+    public string lookHorizontal;
+    public string lookVertical;
 
+    [SerializeField]
     [Header("Health/Slapping Variables")]
     public Rigidbody[] bodyParts;  // All the body part rigidbodies for the ragdoll
     public Collider[] colliders;  // Colliders for ragdoll body parts
@@ -91,20 +103,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Input.GetButton("Right Arm"));
+        Debug.Log(Input.GetButton(rightArm));
         CheckForGround();
         Attack();
         SlappedOut();
         if (grabbedRb != null) //THROWING WHEN GRABBED.
         {
-            if (Input.GetButtonDown("Right Arm"))
+            if (Input.GetButtonDown(rightArm))
             {
                 Debug.Log("Pressed");
                 PushObject();
             }
         }
         Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
-        if (Input.GetButtonDown("Left Arm"))
+        if (Input.GetButtonDown(leftArm))
         {
             Debug.Log("Input");
 
@@ -115,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrabbing) MoveGrabbedObject();
 
-        if (Input.GetButtonUp("Left Arm") || otherPlayer.hitCount < 10) 
+        if (Input.GetButtonUp(leftArm) || otherPlayer.hitCount < 10) 
         {
             ReleaseObject();
         }
@@ -125,6 +137,7 @@ public class PlayerController : MonoBehaviour
         //OnDrawGizmos();
         if (hitCount > maxHitCount)
         {
+            rb.useGravity = true;
             float timer = +Time.deltaTime;
             if (timer > 10)
             {
@@ -138,8 +151,10 @@ public class PlayerController : MonoBehaviour
         if (hitCount != maxHitCount)
         {
             Rotate();
+           
             if (hitCount <= maxHitCount)
             {
+                rb.useGravity = false;
                 velocity = rb.velocity;
                 if (lookInput.sqrMagnitude <= 2.0f)
                 {
@@ -148,7 +163,7 @@ public class PlayerController : MonoBehaviour
                 playerInput = new Vector3(Input.GetAxisRaw(horizontalControl), 0, Input.GetAxisRaw(verticalControl));
 
                 MovementUpdate(playerInput);
-                lookInput = new Vector2(Input.GetAxis("Axis 3"), Input.GetAxis("Axis 4"));
+                lookInput = new Vector2(Input.GetAxis(lookHorizontal), Input.GetAxis(lookVertical));
 
                 // Apply dead zone to prevent stick drift
                 if (lookInput.magnitude < 0.2f)
@@ -175,7 +190,6 @@ public class PlayerController : MonoBehaviour
         {
             velocity += acceleration * input * Time.fixedDeltaTime;
             velocity = Mathf.Clamp(velocity, -maxSpeed, maxSpeed);
-            
         }
         else
         {
@@ -186,20 +200,26 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
-        Vector3 movementDirection = new Vector3(velocity.x, 0, velocity.z);
+        if (lookInput.sqrMagnitude < 0.01f)
+        { // Ensure there's input
 
-        if (movementDirection.sqrMagnitude > 0.0001f) // Only update rotation when moving
-        {
-            currentRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+
+            Vector3 movementDirection = new Vector3(velocity.x, 0, velocity.z);
+
+            if (movementDirection.sqrMagnitude > 0.0001f) // Only update rotation when moving
+            {
+                currentRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+            }
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, currentRotation, Time.deltaTime * rotateSpeed);
         }
-
-        transform.rotation = Quaternion.Lerp(transform.rotation, currentRotation, Time.deltaTime * rotateSpeed);
     }
 
     private void JumpUpdate()
     {
         if (!isGrounded)
         {
+            audioManager.PlaySFX(audioManager.Jumping);
             velocity.y += gravity * Time.fixedDeltaTime;
         }
         else
@@ -210,7 +230,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
         if (isGrounded && Input.GetButton(jumpButton))
         {
-            audioManager.PlaySFX(audioManager.Jumping);
             Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
@@ -234,13 +253,14 @@ public class PlayerController : MonoBehaviour
         // Visualize the box with Gizmos at the check position
         Gizmos.color = Color.green; // Set the color for the gizmo
         Gizmos.DrawWireCube(boxPosition, groundCheckSize); // Draw a wireframe box
+       
     }
     private void GrabObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange))
+        if (Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation,holdDistance))
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
-            {// Object must have "obj" tag
+            {// Object must have "downed" tag
                 Debug.Log("Button pressed");
 
 
@@ -249,7 +269,7 @@ public class PlayerController : MonoBehaviour
                 otherPlayer = grabbedRb.GetComponent<PlayerController>();
                 if (grabbedRb)
                 {
-                    audioManager.PlaySFX(audioManager.Grab);
+
                     //  hit.transform.SetParent(grabby.transform, true);
                     grabbedRb.useGravity = false;
                     grabbedRb.freezeRotation = true;
@@ -262,7 +282,7 @@ public class PlayerController : MonoBehaviour
                 }
 
 
-                if (Input.GetButtonUp("Left Arm"))
+                if (Input.GetButtonUp(leftArm))
                 {
                     grabbedObject.GetComponent<Rigidbody>().interpolation = objInterpolation;
                     grabbedObject = null;
@@ -279,12 +299,11 @@ public class PlayerController : MonoBehaviour
         
         if(hitCount>=maxHitCount && timer<10)
         {
-            audioManager.PlaySFX(audioManager.Death);
             gameObject.tag = "Downed";
             Debug.Log(timer);
             timer += Time.deltaTime;
             playerInput = transform.position;
-
+            rb.useGravity = true;
         }
         if (timer >=10 )
         {
@@ -354,18 +373,16 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetButtonDown("Slap") )
+        if (Input.GetButtonDown(slapL) )
         {
-            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
         }
 
-        if (Input.GetButtonDown("SlapR"))
+        if (Input.GetButtonDown(slapR))
         {
-            audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
             isSlapping = true;
