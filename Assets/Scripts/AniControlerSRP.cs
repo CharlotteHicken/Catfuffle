@@ -22,18 +22,6 @@ public class AniControlerSRP : MonoBehaviour
             isJumping = false;
         }
 
-        //if (Input.GetAxis("Horizontal") != 0)
-        //{
-        //    Debug.Log("im walking here!");
-        //    ani.SetBool("isWalking", true);
-        //    isWalking = true;
-        //}
-        //else
-        //{
-        //    ani.SetBool("isWalking", false);
-        //    isWalking = false;
-        //}
-
         if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
             ani.SetBool("isWalking", true);
@@ -46,5 +34,5 @@ public class AniControlerSRP : MonoBehaviour
         }
 
     }
-
 }
+
