@@ -223,8 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24dba22204679114784c79c264b30739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepSoundR: {fileID: 0}
-  footstepSoundL: {fileID: 0}
+  footstepSoundR: {fileID: 8300000, guid: d9314648474582741b797c1616ffde32, type: 3}
+  footstepSoundL: {fileID: 8300000, guid: a0cf95ebd4adfb8458ae980c9ea6143e, type: 3}
 --- !u!1 &398644324
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +907,7 @@ MonoBehaviour:
   SFXSource: {fileID: 1448783813}
   Grab: {fileID: 8300000, guid: f30ed31751cfb1a4bacccfe2d4c79115, type: 3}
   Hitting: {fileID: 8300000, guid: 662e82464e592e74081f1d007eb1e3b9, type: 3}
-  Jumping: {fileID: 8300000, guid: 3bc28bc72786c4049bb6b4d239e59709, type: 3}
+  Jumping: {fileID: 8300000, guid: efa87ee6340182349a7abccc95498d87, type: 3}
   Swinging: {fileID: 8300000, guid: de118247cd0b2fd4cacab19cc960b3f0, type: 3}
   Walking: {fileID: 8300000, guid: 18ebba4d0624a0c449f9addd8bb34774, type: 3}
   Death: {fileID: 8300000, guid: 15bbc791bda061b489378d7622323d62, type: 3}
@@ -1199,8 +1199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24dba22204679114784c79c264b30739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepSoundR: {fileID: 0}
-  footstepSoundL: {fileID: 0}
+  footstepSoundR: {fileID: 8300000, guid: d9314648474582741b797c1616ffde32, type: 3}
+  footstepSoundL: {fileID: 8300000, guid: a0cf95ebd4adfb8458ae980c9ea6143e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
