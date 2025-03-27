@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
-
+    
     [SerializeField]
     [Header("Movement Settings")]
     public float maxSpeed = 5;
@@ -86,6 +87,11 @@ public class PlayerController : MonoBehaviour
     private bool isMashing = false;
 
     PlayerController otherPlayer;
+    [SerializeField]
+    [Header("Health Bar UI")]
+    public Slider slider;
+    public float sliderValue = 10;
+    private Color sliderOGColor;
     void Start()
     {
 
@@ -97,12 +103,8 @@ public class PlayerController : MonoBehaviour
         deceleration = maxSpeed / decelerateTime;
         leftSlapCollider.SetActive(false);
         rightSlapCollider.SetActive(false);
-
-        TelemetryLogger.Log(this, "PlayerSpawn", new
-        {
-            player = gameObject.name,
-            spawnPosition = transform.position
-        });
+        slider.value = sliderValue;
+        sliderOGColor = slider.image.color;
     }
 
     // Update is called once per frame
@@ -113,6 +115,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+     
         Debug.Log(Input.GetButton(rightArm));
         CheckForGround();
         Attack();
@@ -274,7 +277,7 @@ public class PlayerController : MonoBehaviour
     }
     private void GrabObject()
     {
-        if (Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation,holdDistance))
+        if (Physics.BoxCast(transform.position - transform.forward/2 , transform.localScale/2, transform.forward, out hit, transform.rotation,holdDistance))
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
             {// Object must have "downed" tag
@@ -340,6 +343,10 @@ public class PlayerController : MonoBehaviour
             timer += Time.deltaTime;
             playerInput = transform.position;
             rb.useGravity = true;
+            slider.value = 0;
+            slider.value+= timer;
+            slider.image.color = Color.gray;
+            
         }
         if (timer >=10 )
         {
@@ -352,6 +359,9 @@ public class PlayerController : MonoBehaviour
 
             timer = 0;
             hitCount = 0;
+          
+           slider.value = sliderValue;
+            slider.image.color = sliderOGColor;
         }
     }
     
@@ -458,7 +468,7 @@ public class PlayerController : MonoBehaviour
         {
             slapTimer += Time.deltaTime;
 
-            if (slapTimer >= 0.2f) // Stop animation after 1 second
+            if (slapTimer >= 0.5f) // Stop animation after 1 second
             {
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
