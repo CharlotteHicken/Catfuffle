@@ -80,8 +80,10 @@ public class PlayerController : MonoBehaviour
     public AudioManager audioManager;
     // Start is called before the first frame update
     float timer;
-
-
+    //to log telemetry buttom mash
+    private int mashCount = 0;
+    private float mashStartTime = 0f;
+    private bool isMashing = false;
 
     PlayerController otherPlayer;
     void Start()
@@ -95,6 +97,12 @@ public class PlayerController : MonoBehaviour
         deceleration = maxSpeed / decelerateTime;
         leftSlapCollider.SetActive(false);
         rightSlapCollider.SetActive(false);
+
+        TelemetryLogger.Log(this, "PlayerSpawn", new
+        {
+            player = gameObject.name,
+            spawnPosition = transform.position
+        });
     }
 
     // Update is called once per frame
@@ -143,6 +151,13 @@ public class PlayerController : MonoBehaviour
             float timer = +Time.deltaTime;
             if (timer > 10)
             {
+                TelemetryLogger.Log(this, "PlayerDeath", new
+                {
+                    player = gameObject.name,
+                    position = transform.position,
+                    cause = "hitCountExceeded"
+                });
+
                 hitCount = 0;
             }
         }
@@ -328,6 +343,13 @@ public class PlayerController : MonoBehaviour
         }
         if (timer >=10 )
         {
+            TelemetryLogger.Log(this, "PlayerDeath", new
+            {
+                player = gameObject.name,
+                position = transform.position,
+                cause = "SlappedOut"
+            });
+
             timer = 0;
             hitCount = 0;
         }
