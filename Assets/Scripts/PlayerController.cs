@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     float timer;
 
+
+
     PlayerController otherPlayer;
     void Start()
     {
@@ -350,8 +352,28 @@ public class PlayerController : MonoBehaviour
         throwDirection.y = 0; // Ensure knockback is mostly horizontal
         Vector3 finalForce = (throwDirection * throwRange) + (Vector3.up * verticalBoost);
         grabbedRb.AddForce(finalForce, ForceMode.Impulse);
-     //   grabbedRb.AddForce(transform.forward , ForceMode.Impulse);
-            ReleaseObject(); // Let go after pushing
+
+        // Log the push event 
+        TelemetryLogger.Log(this, "PlayerPush", new
+        {
+            pusher = gameObject.name,
+            pushed = grabbedCollider != null ? grabbedCollider.gameObject.name : "Unknown",
+            position = transform.position
+        });
+
+        // If the pushed object is a player, log that too
+        if (otherPlayer != null)
+        {
+            TelemetryLogger.Log(otherPlayer, "PlayerPushed", new
+            {
+                pushed = otherPlayer.gameObject.name,
+                pusher = gameObject.name,
+                position = otherPlayer.transform.position
+            });
+        }
+
+        //   grabbedRb.AddForce(transform.forward , ForceMode.Impulse);
+        ReleaseObject(); // Let go after pushing
         
     } 
 
