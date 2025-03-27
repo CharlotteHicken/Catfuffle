@@ -13,7 +13,7 @@ public class UIOff : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Circle") != 0 )
+        if (Input.GetAxis("SlapR1") != 0 )
         {
             go.SetActive(false);
         }
