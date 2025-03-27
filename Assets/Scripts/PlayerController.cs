@@ -81,6 +81,10 @@ public class PlayerController : MonoBehaviour
     public AudioManager audioManager;
     // Start is called before the first frame update
     float timer;
+    //to log telemetry buttom mash
+    private int mashCount = 0;
+    private float mashStartTime = 0f;
+    private bool isMashing = false;
 
     PlayerController otherPlayer;
     [SerializeField]
@@ -150,6 +154,13 @@ public class PlayerController : MonoBehaviour
             float timer = +Time.deltaTime;
             if (timer > 10)
             {
+                TelemetryLogger.Log(this, "PlayerDeath", new
+                {
+                    player = gameObject.name,
+                    position = transform.position,
+                    cause = "hitCountExceeded"
+                });
+
                 hitCount = 0;
             }
         }
@@ -266,7 +277,7 @@ public class PlayerController : MonoBehaviour
     }
     private void GrabObject()
     {
-        if (Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation,holdDistance))
+        if (Physics.BoxCast(transform.position - transform.forward/2 , transform.localScale/2, transform.forward, out hit, transform.rotation,holdDistance))
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
             {// Object must have "downed" tag
@@ -287,7 +298,25 @@ public class PlayerController : MonoBehaviour
                     Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
                     isGrabbing = true;
 
+                    // Telemetry logging grab event
+                    TelemetryLogger.Log(this, "PlayerGrab", new
+                    {
+                        grabber = gameObject.name,
+                        grabbed = hit.collider.gameObject.name,
+                        position = transform.position
+                    });
+
                    
+                    if (otherPlayer != null)
+                    {
+                        TelemetryLogger.Log(otherPlayer, "PlayerGrabbed", new
+                        {
+                            grabbed = otherPlayer.gameObject.name,
+                            grabber = gameObject.name,
+                            position = otherPlayer.transform.position
+                        });
+                    }
+
                 }
 
 
@@ -321,6 +350,13 @@ public class PlayerController : MonoBehaviour
         }
         if (timer >=10 )
         {
+            TelemetryLogger.Log(this, "PlayerDeath", new
+            {
+                player = gameObject.name,
+                position = transform.position,
+                cause = "SlappedOut"
+            });
+
             timer = 0;
             hitCount = 0;
           
@@ -348,8 +384,28 @@ public class PlayerController : MonoBehaviour
         throwDirection.y = 0; // Ensure knockback is mostly horizontal
         Vector3 finalForce = (throwDirection * throwRange) + (Vector3.up * verticalBoost);
         grabbedRb.AddForce(finalForce, ForceMode.Impulse);
-     //   grabbedRb.AddForce(transform.forward , ForceMode.Impulse);
-            ReleaseObject(); // Let go after pushing
+
+        // Log the push event 
+        TelemetryLogger.Log(this, "PlayerPush", new
+        {
+            pusher = gameObject.name,
+            pushed = grabbedCollider != null ? grabbedCollider.gameObject.name : "Unknown",
+            position = transform.position
+        });
+
+        // If the pushed object is a player, log that too
+        if (otherPlayer != null)
+        {
+            TelemetryLogger.Log(otherPlayer, "PlayerPushed", new
+            {
+                pushed = otherPlayer.gameObject.name,
+                pusher = gameObject.name,
+                position = otherPlayer.transform.position
+            });
+        }
+
+        //   grabbedRb.AddForce(transform.forward , ForceMode.Impulse);
+        ReleaseObject(); // Let go after pushing
         
     } 
 
