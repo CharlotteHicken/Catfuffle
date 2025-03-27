@@ -10,6 +10,13 @@ public class Knockback : MonoBehaviour
     private Renderer playerRenderer;
     private Color originalColor;
     public float flashDuration = 0.2f;
+    public AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
@@ -46,6 +53,7 @@ public class Knockback : MonoBehaviour
     }
     public void TakeDamage()
     {
+        audioManager.PlaySFX(audioManager.Hit);
         StartCoroutine(FlashRed());
     }
 
