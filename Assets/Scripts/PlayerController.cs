@@ -85,6 +85,8 @@ public class PlayerController : MonoBehaviour
     private int mashCount = 0;
     private float mashStartTime = 0f;
     private bool isMashing = false;
+    public GameObject leftSway;
+    public GameObject rightSway;
 
     PlayerController otherPlayer;
     [SerializeField]
@@ -105,6 +107,8 @@ public class PlayerController : MonoBehaviour
         rightSlapCollider.SetActive(false);
         slider.value = sliderValue;
         sliderOGColor = slider.image.color;
+        leftSway.SetActive(false);
+        rightSway.SetActive(false);
     }
 
     // Update is called once per frame
@@ -453,6 +457,7 @@ public class PlayerController : MonoBehaviour
             leftSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
+            leftSway.SetActive(true);
         }
 
         if (Input.GetButtonDown(slapR))
@@ -462,6 +467,8 @@ public class PlayerController : MonoBehaviour
             rightSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
+            rightSway.SetActive(true);
+
         }
 
         if (isSlapping)
@@ -474,9 +481,12 @@ public class PlayerController : MonoBehaviour
                 ani.SetBool("rightArm", false);
                 leftSlapCollider.SetActive(false);
                 rightSlapCollider.SetActive(false);
+                leftSway.SetActive(false);
+                rightSway.SetActive(false);
                 isSlapping = false; // Allow next slap
             }
         }
+        
     }
 }
 
