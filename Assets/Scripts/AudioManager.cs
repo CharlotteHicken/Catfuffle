@@ -10,10 +10,9 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Clip")]
     public AudioClip Grab;
-    public AudioClip Hitting;
+    public AudioClip Hit;
     public AudioClip Jumping;
     public AudioClip Swinging;
-    public AudioClip Walking;
     public AudioClip Death;
 
     public void PlaySFX(AudioClip clip)
