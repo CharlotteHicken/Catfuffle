@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private RigidbodyInterpolation objInterpolation;
     private bool isGrabbing = false;
     public float grabRange = 8f;
-    public float pushForce = 5f;
+   public float throwRange = 4f;
     public float holdDistance = 1.5f;
     private Rigidbody grabbedRb;
     public GameObject grabby;
@@ -381,7 +381,7 @@ public class PlayerController : MonoBehaviour
     private void PushObject()
     {
         float verticalBoost = 4f;
-        float throwRange = 4f;
+       
           audioManager.PlaySFX(audioManager.Grab);
             grabbedRb.isKinematic = false; // Reactivate physics for push
         Vector3 throwDirection = transform.forward * throwRange;

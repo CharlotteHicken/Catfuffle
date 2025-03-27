@@ -5251,12 +5251,16 @@ PrefabInstance:
       objectReference: {fileID: 1914342597}
     - target: {fileID: 6152719458723748363, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: pushForce
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6152719458723748363, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: rightSway
       value: 
       objectReference: {fileID: 2089675112}
+    - target: {fileID: 6152719458723748363, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: throwRange
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7091183267987761685, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: verticalBoost
       value: 10
@@ -12036,7 +12040,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233781339}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -13667,7 +13671,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6152719458723748363, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: pushForce
-      value: 20
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152719458723748363, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: throwRange
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8784357040386062207, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: m_LocalPosition.x
