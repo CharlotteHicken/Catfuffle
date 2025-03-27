@@ -278,7 +278,25 @@ public class PlayerController : MonoBehaviour
                     Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
                     isGrabbing = true;
 
+                    // Telemetry logging grab event
+                    TelemetryLogger.Log(this, "PlayerGrab", new
+                    {
+                        grabber = gameObject.name,
+                        grabbed = hit.collider.gameObject.name,
+                        position = transform.position
+                    });
+
                    
+                    if (otherPlayer != null)
+                    {
+                        TelemetryLogger.Log(otherPlayer, "PlayerGrabbed", new
+                        {
+                            grabbed = otherPlayer.gameObject.name,
+                            grabber = gameObject.name,
+                            position = otherPlayer.transform.position
+                        });
+                    }
+
                 }
 
 
