@@ -450,7 +450,7 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetButtonDown(slapL) )
+        if (Input.GetAxis(slapL) > 0 )
         {
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
@@ -460,7 +460,7 @@ public class PlayerController : MonoBehaviour
             leftSway.SetActive(true);
         }
 
-        if (Input.GetButtonDown(slapR))
+        if (Input.GetAxis(slapR) > 0)
         {
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
