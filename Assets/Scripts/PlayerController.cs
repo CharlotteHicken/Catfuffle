@@ -79,6 +79,9 @@ public class PlayerController : MonoBehaviour
     private float slapTimer = 0f;
     private bool isSlapping = false;
     public AudioManager audioManager;
+
+    float timeElapsed;
+    bool isDying = false;
     // Start is called before the first frame update
     float timer;
     //to log telemetry buttom mash
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
     public Slider slider;
     public float sliderValue = 10;
     private Color sliderOGColor;
+    public GameObject catBody;
     void Start()
     {
 
@@ -124,6 +128,11 @@ public class PlayerController : MonoBehaviour
         CheckForGround();
         Attack();
         SlappedOut();
+
+        if (isDying)
+        {
+            Dying();
+        }
         if (grabbedRb != null) //THROWING WHEN GRABBED.
         {
             if (Input.GetButtonDown(rightArm))
@@ -487,6 +496,34 @@ public class PlayerController : MonoBehaviour
             }
         }
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("in trigger enter");
+        if (other.CompareTag("KillVolume"))
+        {
+            isDying = true;
+        }
+    }
+
+    void Dying()
+    {
+        //Debug.Log("InKillVolume");
+        //play ouch sound
+        //set poof dying particle to active
+        catBody.SetActive(false);
+
+        
+        timeElapsed += Time.deltaTime;
+        Debug.Log("Time Passed in kill volume: " + timeElapsed);
+        if (timeElapsed >= 5.0f)//wait before respawn
+        {
+            transform.position = new Vector3(0f, 1.5f, 0);
+            catBody.SetActive(true);
+            timeElapsed = 0f;
+            isDying = false;
+        }
     }
 }
 
