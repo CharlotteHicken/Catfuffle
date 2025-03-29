@@ -13392,6 +13392,8 @@ MonoBehaviour:
   Jumping: {fileID: 8300000, guid: efa87ee6340182349a7abccc95498d87, type: 3}
   Swinging: {fileID: 8300000, guid: 314af03197da98e4a935325ee184327f, type: 3}
   Death: {fileID: 8300000, guid: 15bbc791bda061b489378d7622323d62, type: 3}
+  Pop: {fileID: 8300000, guid: dca90636b8069eb4787ef29e8a8d7f88, type: 3}
+  Bounce: {fileID: 8300000, guid: 0e0dffa5dabba2e4eaadaf1204c5f328, type: 3}
 --- !u!1 &1448783812
 GameObject:
   m_ObjectHideFlags: 0

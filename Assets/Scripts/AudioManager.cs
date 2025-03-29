@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip Jumping;
     public AudioClip Swinging;
     public AudioClip Death;
+    public AudioClip Pop;
+    public AudioClip Bounce;
 
     public void PlaySFX(AudioClip clip)
     {
