@@ -21,19 +21,19 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Join1") != 0)
+        if (Input.GetAxis("Jump1") != 0)
         {
             player1.SetActive(true);
         }
-        if (Input.GetAxis("Join2") != 0)
+        if (Input.GetAxis("Jump2") != 0)
         {
             player2.SetActive(true);
         }
-        if (Input.GetAxis("Join3") != 0)
+        if (Input.GetAxis("Jump3") != 0)
         {
             player3.SetActive(true);
         }
-        if (Input.GetAxis("Join4") != 0)
+        if (Input.GetAxis("Jump4") != 0)
         {
             player4.SetActive(true);
         }

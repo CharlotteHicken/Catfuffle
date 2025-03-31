@@ -53,7 +53,7 @@ public class Knockback : MonoBehaviour
             if (rb != null)
             {
                 Vector3 knockbackDirection = (transform.position + transform.forward).normalized;
-                Vector3 finalForce = (knockbackDirection * knockbackStrength + Vector3.forward) + (Vector3.up * verticalBoost);
+                Vector3 finalForce = (knockbackDirection * knockbackStrength ) + (Vector3.up * verticalBoost);
                 rb.AddForce(finalForce, ForceMode.Impulse);
                 if (player.hitCount == player.maxHitCount)
                 {

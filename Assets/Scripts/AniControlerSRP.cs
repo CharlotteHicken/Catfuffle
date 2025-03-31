@@ -7,11 +7,15 @@ public class AniControlerSRP : MonoBehaviour
     public Animator ani;
     public bool isJumping;
     public bool isWalking;
+    public string Jump;
+    public string Horizontal;
+    public string Vertical;
+
 
     public void Update()
     {
 
-        if (Input.GetAxis("Jump") != 0)
+        if (Input.GetAxis(Jump) != 0)
         {
             ani.SetBool("isJumping", true);
             isJumping = true;
@@ -22,7 +26,7 @@ public class AniControlerSRP : MonoBehaviour
             isJumping = false;
         }
 
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxis(Vertical) != 0 || Input.GetAxis(Horizontal) != 0)
         {
             ani.SetBool("isWalking", true);
             isWalking = true;

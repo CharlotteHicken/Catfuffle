@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private RigidbodyInterpolation objInterpolation;
     private bool isGrabbing = false;
     public float grabRange = 8f;
-    public float pushForce = 5f;
+   public float throwRange = 4f;
     public float holdDistance = 1.5f;
     private Rigidbody grabbedRb;
     public GameObject grabby;
@@ -79,12 +79,17 @@ public class PlayerController : MonoBehaviour
     private float slapTimer = 0f;
     private bool isSlapping = false;
     public AudioManager audioManager;
+
+    float timeElapsed;
+    bool isDying = false;
     // Start is called before the first frame update
     float timer;
     //to log telemetry buttom mash
     private int mashCount = 0;
     private float mashStartTime = 0f;
     private bool isMashing = false;
+    public GameObject leftSway;
+    public GameObject rightSway;
 
     PlayerController otherPlayer;
     [SerializeField]
@@ -92,6 +97,7 @@ public class PlayerController : MonoBehaviour
     public Slider slider;
     public float sliderValue = 10;
     private Color sliderOGColor;
+    public GameObject catBody;
     void Start()
     {
 
@@ -105,6 +111,8 @@ public class PlayerController : MonoBehaviour
         rightSlapCollider.SetActive(false);
         slider.value = sliderValue;
         sliderOGColor = slider.image.color;
+        leftSway.SetActive(false);
+        rightSway.SetActive(false);
     }
 
     // Update is called once per frame
@@ -116,22 +124,27 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
      
-        Debug.Log(Input.GetButton(rightArm));
+        //Debug.Log(Input.GetButton(rightArm));
         CheckForGround();
         Attack();
         SlappedOut();
+
+        if (isDying)
+        {
+            Dying();
+        }
         if (grabbedRb != null) //THROWING WHEN GRABBED.
         {
             if (Input.GetButtonDown(rightArm))
             {
-                Debug.Log("Pressed");
+                //Debug.Log("Pressed");
                 PushObject();
             }
         }
-        Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
+        //Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
         if (Input.GetButtonDown(leftArm))
         {
-            Debug.Log("Input");
+            //Debug.Log("Input");
 
             GrabObject();
            
@@ -246,11 +259,11 @@ public class PlayerController : MonoBehaviour
             velocity.y = -0.1f;
         }
 
-        Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
+        //Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
         if (isGrounded && Input.GetButton(jumpButton))
         {
             audioManager.PlaySFX(audioManager.Jumping);
-            Debug.Log("Jump!");
+            //Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
         }
@@ -281,7 +294,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
             {// Object must have "downed" tag
-                Debug.Log("Button pressed");
+                //Debug.Log("Button pressed");
 
                 audioManager.PlaySFX(audioManager.Grab);
                 grabbedRb = hit.collider.GetComponent<Rigidbody>();
@@ -339,7 +352,7 @@ public class PlayerController : MonoBehaviour
         {
             audioManager.PlaySFX(audioManager.Death);
             gameObject.tag = "Downed";
-            Debug.Log(timer);
+            //Debug.Log(timer);
             timer += Time.deltaTime;
             playerInput = transform.position;
             rb.useGravity = true;
@@ -350,7 +363,7 @@ public class PlayerController : MonoBehaviour
         }
         if (timer >=10 )
         {
-            TelemetryLogger.Log(this, "PlayerDeath", new
+            TelemetryLogger.Log(this, "PlayerKnockedOut", new
             {
                 player = gameObject.name,
                 position = transform.position,
@@ -377,7 +390,7 @@ public class PlayerController : MonoBehaviour
     private void PushObject()
     {
         float verticalBoost = 4f;
-        float throwRange = 4f;
+       
           audioManager.PlaySFX(audioManager.Grab);
             grabbedRb.isKinematic = false; // Reactivate physics for push
         Vector3 throwDirection = transform.forward * throwRange;
@@ -446,22 +459,25 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetButtonDown(slapL) )
+        if (Input.GetAxis(slapL) > 0 )
         {
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
+            leftSway.SetActive(true);
         }
 
-        if (Input.GetButtonDown(slapR))
+        if (Input.GetAxis(slapR) > 0)
         {
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
+            rightSway.SetActive(true);
+
         }
 
         if (isSlapping)
@@ -474,8 +490,39 @@ public class PlayerController : MonoBehaviour
                 ani.SetBool("rightArm", false);
                 leftSlapCollider.SetActive(false);
                 rightSlapCollider.SetActive(false);
+                leftSway.SetActive(false);
+                rightSway.SetActive(false);
                 isSlapping = false; // Allow next slap
             }
+        }
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("in trigger enter");
+        if (other.CompareTag("KillVolume"))
+        {
+            isDying = true;
+        }
+    }
+
+    void Dying()
+    {
+        //Debug.Log("InKillVolume");
+        //play ouch sound
+        //set poof dying particle to active
+        catBody.SetActive(false);
+
+        
+        timeElapsed += Time.deltaTime;
+        //Debug.Log("Time Passed in kill volume: " + timeElapsed);
+        if (timeElapsed >= 5.0f)//wait before respawn
+        {
+            transform.position = new Vector3(0f, 1.5f, 0);
+            catBody.SetActive(true);
+            timeElapsed = 0f;
+            isDying = false;
         }
     }
 }
