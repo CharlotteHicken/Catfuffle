@@ -13,7 +13,15 @@ public class Knockback : MonoBehaviour
     public AudioManager audioManager;
     public GameObject smackDisplayF1;
     bool smackBool = false;
-   // public GameObject smackDisplayF2;
+    // public GameObject smackDisplayF2;
+
+    [System.Serializable]
+    public struct HitEventData
+    {
+        public string playerName;
+        public float health;
+        public Vector3 position; 
+    }
 
     float timer;
     private void Awake()
@@ -42,6 +50,15 @@ public class Knockback : MonoBehaviour
         {
             // Apply damage
             player.hitCount += damage;
+
+            var data = new HitEventData()
+            {
+                playerName = gameObject.name,
+                health = player.hitCount,
+                position = transform.position
+            };
+
+            TelemetryLogger.Log(this, "gotHit", data);
             audioManager.PlaySFX(audioManager.Hit);
             smackDisplayF1.SetActive(true);
             // smackDisplayF2.SetActive(true);

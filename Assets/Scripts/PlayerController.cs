@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
     public float sliderValue = 10;
     private Color sliderOGColor;
     public GameObject catBody;
+    bool hasLSlapped = false;
+    bool hasRSlapped = false;
     void Start()
     {
 
@@ -121,20 +123,21 @@ public class PlayerController : MonoBehaviour
        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
+    [System.Serializable]
     public struct InteractionEventData
     {
         public string player;
         public string interactable;
         public Vector3 position;
     }
-
+    [System.Serializable]
     public struct DamageEventData
     {
         public string player;
         public string cause;
         public Vector3 position;
     }
-
+    [System.Serializable]
     public struct LocationData
     {
         public string player;
@@ -479,13 +482,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis(slapL) > 0 )
         {
 
-            var leftData = new LocationData()
+            if (!hasLSlapped)
             {
-                player = gameObject.name,
-                position = transform.position
-            };
+                var leftData = new LocationData()
+                {
+                    player = gameObject.name,
+                    position = transform.position
+                };
 
-            TelemetryLogger.Log(this, "leftSlap", leftData);
+                TelemetryLogger.Log(this, "leftSlap", leftData);
+                hasLSlapped = true;
+            }
 
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
@@ -495,23 +502,37 @@ public class PlayerController : MonoBehaviour
             leftSway.SetActive(true);
         }
 
-        if (Input.GetAxis(slapR) > 0)
+        if (Input.GetAxis(slapL) <= 0)
         {
-            var rightData= new LocationData()
+            hasLSlapped = false;
+        }
+
+        if (Input.GetAxis(slapR) > 0 )
+        {
+            if (!hasRSlapped)
             {
-                player = gameObject.name,
-                position = transform.position
-            };
+                var rightData= new LocationData()
+                {
+                    player = gameObject.name,
+                    position = transform.position
+                };
 
-            TelemetryLogger.Log(this, "rightSlap", rightData);
+                TelemetryLogger.Log(this, "rightSlap", rightData);
+                hasRSlapped = true;
+            }
 
-            audioManager.PlaySFX(audioManager.Swinging);
+                audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
             rightSway.SetActive(true);
 
+        }
+
+        if (Input.GetAxis(slapR) <= 0)
+        {
+            hasRSlapped = false;
         }
 
         if (isSlapping)
