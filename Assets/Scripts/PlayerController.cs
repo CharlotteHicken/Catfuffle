@@ -518,14 +518,13 @@ public class PlayerController : MonoBehaviour
         catBody.SetActive(false);
         deathPoof.SetActive(true);
       //  Debug.Log("Time Passed in kill volume: " + timeElapsed);
-        if (timeElapsed > 2)
-        {
-            deathPoof.SetActive(false);
-        }
+      
         timeElapsed += Time.deltaTime;
 
         if (timeElapsed >= 5.0f)//wait before respawn
         {
+            deathPoof.SetActive(false);
+
             transform.position = new Vector3(0f, 1.5f, 0);
             catBody.SetActive(true);
             timeElapsed = 0f;
