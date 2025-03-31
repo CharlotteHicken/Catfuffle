@@ -16,6 +16,6 @@ MonoBehaviour:
   secret: mark affable
   _version: Playtest01
   _serverURL: https://telemetry-dg-13578a3082a2.herokuapp.com/
-  serverCommunication: 2
+  serverCommunication: 0
   debugLogging: 0
   <SetupId>k__BackingField: DESKTOP-KBV0CC1 > Catfuffle / Catfuffle @ Eng-981171136

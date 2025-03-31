@@ -85,9 +85,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     float timer;
     //to log telemetry buttom mash
-    private int mashCount = 0;
-    private float mashStartTime = 0f;
-    private bool isMashing = false;
+    //private int mashCount = 0;
+    //private float mashStartTime = 0f;
+    //private bool isMashing = false;
     public GameObject leftSway;
     public GameObject rightSway;
 
@@ -119,6 +119,26 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    public struct InteractionEventData
+    {
+        public string player;
+        public string interactable;
+        public Vector3 position;
+    }
+
+    public struct DamageEventData
+    {
+        public string player;
+        public string cause;
+        public Vector3 position;
+    }
+
+    public struct LocationData
+    {
+        public string player;
+        public Vector3 position;
     }
 
     void Update()
@@ -167,13 +187,6 @@ public class PlayerController : MonoBehaviour
             float timer = +Time.deltaTime;
             if (timer > 10)
             {
-                TelemetryLogger.Log(this, "PlayerDeath", new
-                {
-                    player = gameObject.name,
-                    position = transform.position,
-                    cause = "hitCountExceeded"
-                });
-
                 hitCount = 0;
             }
         }
@@ -266,6 +279,14 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
+
+            var jumpData = new LocationData()
+            {
+                player = gameObject.name,
+                position = transform.position,
+            };
+
+            TelemetryLogger.Log(this, "PlayerJumped", jumpData);
         }
 
         // Clamp falling speed to terminal velocity
@@ -311,23 +332,20 @@ public class PlayerController : MonoBehaviour
                     Physics.IgnoreCollision(grabbedCollider, GetComponent<Collider>(), true); // Prevents pushing player
                     isGrabbing = true;
 
-                    // Telemetry logging grab event
-                    TelemetryLogger.Log(this, "PlayerGrab", new
+                    var grabData = new InteractionEventData()
                     {
-                        grabber = gameObject.name,
-                        grabbed = hit.collider.gameObject.name,
+                        player = gameObject.name,
+                        interactable = hit.collider.gameObject.name,
                         position = transform.position
-                    });
+                    };
+
+                    // Telemetry logging grab event
+                    TelemetryLogger.Log(this, "PlayerGrab", grabData);
 
                    
                     if (otherPlayer != null)
                     {
-                        TelemetryLogger.Log(otherPlayer, "PlayerGrabbed", new
-                        {
-                            grabbed = otherPlayer.gameObject.name,
-                            grabber = gameObject.name,
-                            position = otherPlayer.transform.position
-                        });
+                        TelemetryLogger.Log(otherPlayer, "PlayerGrabbed", grabData);
                     }
 
                 }
@@ -363,12 +381,14 @@ public class PlayerController : MonoBehaviour
         }
         if (timer >=10 )
         {
-            TelemetryLogger.Log(this, "PlayerKnockedOut", new
+            var KOdata = new DamageEventData()
             {
                 player = gameObject.name,
                 position = transform.position,
                 cause = "SlappedOut"
-            });
+            };
+
+            TelemetryLogger.Log(this, "PlayerKnockedOut", KOdata);
 
             timer = 0;
             hitCount = 0;
@@ -398,23 +418,20 @@ public class PlayerController : MonoBehaviour
         Vector3 finalForce = (throwDirection * throwRange) + (Vector3.up * verticalBoost);
         grabbedRb.AddForce(finalForce, ForceMode.Impulse);
 
-        // Log the push event 
-        TelemetryLogger.Log(this, "PlayerPush", new
+        var throwData = new InteractionEventData()
         {
-            pusher = gameObject.name,
-            pushed = grabbedCollider != null ? grabbedCollider.gameObject.name : "Unknown",
+            player = gameObject.name,
+            interactable = grabbedCollider != null ? grabbedCollider.gameObject.name : "Unknown",
             position = transform.position
-        });
+        };
+
+        // Log the push event 
+        TelemetryLogger.Log(this, "PlayerThrow", throwData);
 
         // If the pushed object is a player, log that too
         if (otherPlayer != null)
         {
-            TelemetryLogger.Log(otherPlayer, "PlayerPushed", new
-            {
-                pushed = otherPlayer.gameObject.name,
-                pusher = gameObject.name,
-                position = otherPlayer.transform.position
-            });
+            TelemetryLogger.Log(otherPlayer, "PlayerThrown", throwData);
         }
 
         //   grabbedRb.AddForce(transform.forward , ForceMode.Impulse);
@@ -461,6 +478,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetAxis(slapL) > 0 )
         {
+
+            var leftData = new LocationData()
+            {
+                player = gameObject.name,
+                position = transform.position
+            };
+
+            TelemetryLogger.Log(this, "leftSlap", leftData);
+
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("leftArm", true);
             leftSlapCollider.SetActive(true);
@@ -471,6 +497,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetAxis(slapR) > 0)
         {
+            var rightData= new LocationData()
+            {
+                player = gameObject.name,
+                position = transform.position
+            };
+
+            TelemetryLogger.Log(this, "rightSlap", rightData);
+
             audioManager.PlaySFX(audioManager.Swinging);
             ani.SetBool("rightArm", true);
             rightSlapCollider.SetActive(true);
@@ -504,6 +538,15 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("KillVolume"))
         {
             isDying = true;
+
+            var deathData = new DamageEventData()
+            {
+                player = gameObject.name,
+                position = transform.position,
+                cause = "KillVolume"
+            };
+
+            TelemetryLogger.Log(this, "PlayerKillVolumed", deathData);
         }
     }
 

@@ -17,7 +17,7 @@ public class FootstepSoundManager : MonoBehaviour
 
     public void PlayFootstepSoundL()
     {
-        Debug.Log("hi");
+        //Debug.Log("hi");
         audioSource.PlayOneShot(footstepSoundL);
     }
 

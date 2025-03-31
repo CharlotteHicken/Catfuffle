@@ -22,7 +22,7 @@ public class Knockback : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(timer);
+        //Debug.Log(timer);
         if (smackBool==true)
         {
             timer += Time.deltaTime;  // Keep increasing the timer
@@ -70,7 +70,7 @@ public class Knockback : MonoBehaviour
             }
             StopAllCoroutines();
 
-            Debug.Log("Player Hit: " + other.name + " | Hits Taken: " + player.hitCount);
+            //Debug.Log("Player Hit: " + other.name + " | Hits Taken: " + player.hitCount);
         }
       
     }
