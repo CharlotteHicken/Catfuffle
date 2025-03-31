@@ -98,6 +98,9 @@ public class PlayerController : MonoBehaviour
     public float sliderValue = 10;
     private Color sliderOGColor;
     public GameObject catBody;
+
+
+    public GameObject deathPoof; //particle for when player dies
     void Start()
     {
 
@@ -513,10 +516,14 @@ public class PlayerController : MonoBehaviour
         //play ouch sound
         //set poof dying particle to active
         catBody.SetActive(false);
-
-        
+        deathPoof.SetActive(true);
+      //  Debug.Log("Time Passed in kill volume: " + timeElapsed);
+        if (timeElapsed > 2)
+        {
+            deathPoof.SetActive(false);
+        }
         timeElapsed += Time.deltaTime;
-        //Debug.Log("Time Passed in kill volume: " + timeElapsed);
+
         if (timeElapsed >= 5.0f)//wait before respawn
         {
             transform.position = new Vector3(0f, 1.5f, 0);
