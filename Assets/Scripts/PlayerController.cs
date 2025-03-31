@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
      
-        Debug.Log(Input.GetButton(rightArm));
+        //Debug.Log(Input.GetButton(rightArm));
         CheckForGround();
         Attack();
         SlappedOut();
@@ -137,14 +137,14 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown(rightArm))
             {
-                Debug.Log("Pressed");
+                //Debug.Log("Pressed");
                 PushObject();
             }
         }
-        Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
+        //Debug.DrawRay(transform.position, transform.forward * grabRange, Color.red);
         if (Input.GetButtonDown(leftArm))
         {
-            Debug.Log("Input");
+            //Debug.Log("Input");
 
             GrabObject();
            
@@ -259,11 +259,11 @@ public class PlayerController : MonoBehaviour
             velocity.y = -0.1f;
         }
 
-        Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
+        //Debug.Log("IsGrounded[" + isGrounded.ToString() + "] IsJumping[" + Input.GetButton("Jump").ToString() + "]");
         if (isGrounded && Input.GetButton(jumpButton))
         {
             audioManager.PlaySFX(audioManager.Jumping);
-            Debug.Log("Jump!");
+            //Debug.Log("Jump!");
             velocity.y = initialJumpSpeed;
             isGrounded = false;
         }
@@ -294,7 +294,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
             {// Object must have "downed" tag
-                Debug.Log("Button pressed");
+                //Debug.Log("Button pressed");
 
                 audioManager.PlaySFX(audioManager.Grab);
                 grabbedRb = hit.collider.GetComponent<Rigidbody>();
@@ -352,7 +352,7 @@ public class PlayerController : MonoBehaviour
         {
             audioManager.PlaySFX(audioManager.Death);
             gameObject.tag = "Downed";
-            Debug.Log(timer);
+            //Debug.Log(timer);
             timer += Time.deltaTime;
             playerInput = transform.position;
             rb.useGravity = true;
@@ -363,7 +363,7 @@ public class PlayerController : MonoBehaviour
         }
         if (timer >=10 )
         {
-            TelemetryLogger.Log(this, "PlayerDeath", new
+            TelemetryLogger.Log(this, "PlayerKnockedOut", new
             {
                 player = gameObject.name,
                 position = transform.position,
@@ -516,7 +516,7 @@ public class PlayerController : MonoBehaviour
 
         
         timeElapsed += Time.deltaTime;
-        Debug.Log("Time Passed in kill volume: " + timeElapsed);
+        //Debug.Log("Time Passed in kill volume: " + timeElapsed);
         if (timeElapsed >= 5.0f)//wait before respawn
         {
             transform.position = new Vector3(0f, 1.5f, 0);
