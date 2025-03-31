@@ -5594,6 +5594,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Jump
+      value: Jump3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Vertical
+      value: Vertical3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Horizontal
+      value: Horizontal3
+      objectReference: {fileID: 0}
     - target: {fileID: 6152719458723748363, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: slapL
       value: SlapL3
@@ -5766,6 +5778,18 @@ PrefabInstance:
     - target: {fileID: 5592937536668557228, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: Jump
+      value: Jump2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: Vertical
+      value: Vertical2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: Horizontal
+      value: Horizontal2
       objectReference: {fileID: 0}
     - target: {fileID: 6152719458723748363, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: slider
@@ -6439,6 +6463,18 @@ PrefabInstance:
     - target: {fileID: 4970928777127787152, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Jump
+      value: Jump4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Vertical
+      value: Vertical4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Horizontal
+      value: Horizontal4
       objectReference: {fileID: 0}
     - target: {fileID: 6152719458723748363, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: slapL
@@ -15075,6 +15111,22 @@ PrefabInstance:
     - target: {fileID: 4970928777127787152, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Jump
+      value: Jump1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Vertical
+      value: Vertical1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: isWalking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854888222583589153, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
+      propertyPath: Horizontal
+      value: Horizontal1
       objectReference: {fileID: 0}
     - target: {fileID: 5943122370446860593, guid: c673489dba084bd4db366a615c7d9e9c, type: 3}
       propertyPath: m_Enabled
