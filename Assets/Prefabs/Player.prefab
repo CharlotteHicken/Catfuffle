@@ -6165,6 +6165,9 @@ MonoBehaviour:
   ani: {fileID: 2108735905768024617}
   isJumping: 0
   isWalking: 0
+  Jump: Jump1
+  Horizontal: Horizontal1
+  Vertical: Vertical1
 --- !u!82 &607635161284557978
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6371,7 +6374,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4970928777127787152}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1.8
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -6419,7 +6422,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   grabbedObject: {fileID: 0}
   grabRange: 8
-  pushForce: 5
+  throwRange: 6
   holdDistance: 2
   grabby: {fileID: 0}
   horizontalControl: Horizontal1
@@ -6447,6 +6450,7 @@ MonoBehaviour:
   rightSway: {fileID: 4451580020648024152}
   slider: {fileID: 7736330232785879444}
   sliderValue: 10
+  catBody: {fileID: 4677058968913685225}
 --- !u!136 &5677409107650585590
 CapsuleCollider:
   m_ObjectHideFlags: 0
