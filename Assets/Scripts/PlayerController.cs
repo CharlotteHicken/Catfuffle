@@ -100,6 +100,9 @@ public class PlayerController : MonoBehaviour
     public GameObject catBody;
     bool hasLSlapped = false;
     bool hasRSlapped = false;
+
+
+    public GameObject deathPoof; //particle for when player dies
     void Start()
     {
 
@@ -577,12 +580,16 @@ public class PlayerController : MonoBehaviour
         //play ouch sound
         //set poof dying particle to active
         catBody.SetActive(false);
-
-        
+        deathPoof.SetActive(true);
+      //  Debug.Log("Time Passed in kill volume: " + timeElapsed);
+      
         timeElapsed += Time.deltaTime;
         //Debug.Log("Time Passed in kill volume: " + timeElapsed);
+
         if (timeElapsed >= 5.0f)//wait before respawn
         {
+            deathPoof.SetActive(false);
+
             transform.position = new Vector3(0f, 1.5f, 0);
             catBody.SetActive(true);
             timeElapsed = 0f;
