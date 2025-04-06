@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -98,9 +99,13 @@ public class PlayerController : MonoBehaviour
     public float sliderValue = 10;
     private Color sliderOGColor;
     public GameObject catBody;
-
-
+   
+    public Scoring scoreTracker;
+    public PlayerController eliminatedBy;
     public GameObject deathPoof; //particle for when player dies
+    PlayerController otherPlayerController;
+    public float playerScoreCountDown;
+    bool hasScored;
     void Start()
     {
 
@@ -113,7 +118,7 @@ public class PlayerController : MonoBehaviour
         leftSlapCollider.SetActive(false);
         rightSlapCollider.SetActive(false);
         slider.value = sliderValue;
-        sliderOGColor = slider.image.color;
+       // sliderOGColor = slider.image.color;
         leftSway.SetActive(false);
         rightSway.SetActive(false);
     }
@@ -122,20 +127,33 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        
     }
 
     void Update()
     {
-     
+        Debug.Log("Dying?" + isDying);
+        Debug.Log(hasScored);
+        rb.useGravity = true;
+        if (eliminatedBy == null)
+        {
+            Debug.Log(eliminatedBy);
+        }
+        CheckElimination();
         //Debug.Log(Input.GetButton(rightArm));
         CheckForGround();
-        Attack();
         SlappedOut();
-
+      // Debug.Log( scoreTracker.scoreCount.text);
+        if (hitCount != maxHitCount)
+        {
+            Attack();
+            
+        }
         if (isDying)
         {
             Dying();
         }
+      
         if (grabbedRb != null) //THROWING WHEN GRABBED.
         {
             if (Input.GetButtonDown(rightArm))
@@ -156,17 +174,26 @@ public class PlayerController : MonoBehaviour
 
         if (isGrabbing) MoveGrabbedObject();
 
-        if (Input.GetButtonUp(leftArm) || otherPlayer.hitCount < 10) 
+        if (grabbedRb != null)
         {
-            ReleaseObject();
+
+
+            if (Input.GetButtonUp(leftArm) || otherPlayer.hitCount < 10)
+            {
+                ReleaseObject();
+            }
         }
-   
-       
+        if (eliminatedBy != null)
+        {
+            score();
+            Debug.Log(eliminatedBy.name);
+        }
+
 
         //OnDrawGizmos();
         if (hitCount > maxHitCount)
         {
-            rb.useGravity = true;
+            
             float timer = +Time.deltaTime;
             if (timer > 10)
             {
@@ -184,7 +211,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (hitCount != maxHitCount)
+        if (hitCount != maxHitCount && isDying !=true)
         {
             Rotate();
            
@@ -293,7 +320,8 @@ public class PlayerController : MonoBehaviour
     }
     private void GrabObject()
     {
-        if (Physics.BoxCast(transform.position - transform.forward/2 , transform.localScale/2, transform.forward, out hit, transform.rotation,holdDistance))
+      
+        if (Physics.BoxCast(transform.position - transform.forward / 2, transform.localScale / 2, transform.forward, out hit, transform.rotation, holdDistance))
         {
             if (hit.collider.CompareTag("Downed") || hit.collider.CompareTag("Grabbable"))
             {// Object must have "downed" tag
@@ -303,9 +331,13 @@ public class PlayerController : MonoBehaviour
                 grabbedRb = hit.collider.GetComponent<Rigidbody>();
                 grabbedCollider = hit.collider; // Store object collider
                 otherPlayer = grabbedRb.GetComponent<PlayerController>();
+                 otherPlayerController = GetComponent<PlayerController>();
+
                 if (grabbedRb)
                 {
-
+                   
+                    otherPlayerController.PElimninator(this);
+                    Debug.Log(eliminatedBy);
                     //  hit.transform.SetParent(grabby.transform, true);
                     grabbedRb.useGravity = false;
                     grabbedRb.freezeRotation = true;
@@ -321,8 +353,9 @@ public class PlayerController : MonoBehaviour
                         grabbed = hit.collider.gameObject.name,
                         position = transform.position
                     });
-
                    
+
+
                     if (otherPlayer != null)
                     {
                         TelemetryLogger.Log(otherPlayer, "PlayerGrabbed", new
@@ -342,16 +375,43 @@ public class PlayerController : MonoBehaviour
                     grabbedObject = null;
                 }
             }
+
+         
         }
+     
     }
 
-
-
-  void SlappedOut()
+    public void PElimninator(PlayerController eliminator)
     {
-       
+        eliminatedBy = eliminator;
+        //otherPlayerController.eliminatedBy = eliminator; 
+        hasScored = false;
         
-        if(hitCount>=maxHitCount && timer<10)
+    }
+
+    public void CheckElimination()
+    {
+        if (eliminatedBy != null && grabbedRb == null)
+        {
+            
+            playerScoreCountDown += 1 * Time.deltaTime;
+        }
+        if (!hasScored)
+        {
+            if (playerScoreCountDown > 10)
+            {
+                eliminatedBy = null;
+                playerScoreCountDown = 0;
+                Debug.Log("interaction reset");
+                hasScored = false;  // Ensure scoring flag is reset after respawn or elimination
+            }
+        }
+    }
+        void SlappedOut()
+    {
+
+
+        if (hitCount >= maxHitCount && timer < 10 && isDying == false)
         {
             audioManager.PlaySFX(audioManager.Death);
             gameObject.tag = "Downed";
@@ -361,7 +421,7 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = true;
             slider.value = 0;
             slider.value+= timer;
-            slider.image.color = Color.gray;
+          //  slider.image.color = Color.gray;
             
         }
         if (timer >=10 )
@@ -377,7 +437,7 @@ public class PlayerController : MonoBehaviour
             hitCount = 0;
           
            slider.value = sliderValue;
-            slider.image.color = sliderOGColor;
+          //  slider.image.color = sliderOGColor;
         }
     }
     
@@ -458,7 +518,24 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    
+    void score()
+    {
+
+        if (eliminatedBy != null && otherPlayer.isDying == true)
+        {
+            Debug.Log("yeses");
+            if (!hasScored)  // Only increment if the score hasn't already been counted
+            {
+                eliminatedBy.scoreTracker.AddScore();  // Increment by 1 point for the elimination
+                hasScored = true;  // Prevent further scoring for the same elimination
+            }
+        }
+        if(hasScored)
+        {
+            eliminatedBy = null;
+        }
+       
+    }
 
     void Attack()
     {
@@ -507,6 +584,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("KillVolume"))
         {
             isDying = true;
+            
         }
     }
 
@@ -517,18 +595,26 @@ public class PlayerController : MonoBehaviour
         //set poof dying particle to active
         catBody.SetActive(false);
         deathPoof.SetActive(true);
-      //  Debug.Log("Time Passed in kill volume: " + timeElapsed);
-      
+        //  Debug.Log("Time Passed in kill volume: " + timeElapsed);
+        //hasScored = true;
         timeElapsed += Time.deltaTime;
-
-        if (timeElapsed >= 5.0f)//wait before respawn
+        if(timeElapsed >=2.0f)
         {
             deathPoof.SetActive(false);
+            transform.position = new Vector3(0f, 1.5f, 0);
+        }
+        if (timeElapsed >= 5.0f)//wait before respawn
+        {
+       
 
             transform.position = new Vector3(0f, 1.5f, 0);
             catBody.SetActive(true);
             timeElapsed = 0f;
             isDying = false;
+            hitCount = 0;
+            
+            eliminatedBy = null;
+
         }
     }
 }

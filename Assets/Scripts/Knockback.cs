@@ -12,6 +12,8 @@ public class Knockback : MonoBehaviour
     public float flashDuration = 0.2f;
     public AudioManager audioManager;
     public GameObject smackDisplayF1;
+   public PlayerController scoreKeeper;
+  PlayerController player;
     bool smackBool = false;
    // public GameObject smackDisplayF2;
 
@@ -19,10 +21,12 @@ public class Knockback : MonoBehaviour
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-    }
+      
+            }
     private void Update()
     {
-        Debug.Log(timer);
+        
+        //Debug.Log(timer);
         if (smackBool==true)
         {
             timer += Time.deltaTime;  // Keep increasing the timer
@@ -36,43 +40,48 @@ public class Knockback : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        PlayerController player = other.GetComponent<PlayerController>();
-       
+        player = other.GetComponent<PlayerController>();
+
         if (player != null)
         {
             // Apply damage
             player.hitCount += damage;
             audioManager.PlaySFX(audioManager.Hit);
             smackDisplayF1.SetActive(true);
-            // smackDisplayF2.SetActive(true);
             smackBool = true;
             player.slider.value -= damage;
-         
+
             // Apply knockback
+          
+
+           
+            // Pass the slapper's PlayerController to the PEliminator method
+
+
             Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb != null)
             {
+                // Assign the eliminator (this is the player who hits)
+
+                if (scoreKeeper != null)
+                {
+                   player.PElimninator(this.player);  // Set the eliminatedBy reference
+                }
+
                 Vector3 knockbackDirection = (transform.position + transform.forward).normalized;
-                Vector3 finalForce = (knockbackDirection * knockbackStrength ) + (Vector3.up * verticalBoost);
+                Vector3 finalForce = (knockbackDirection * knockbackStrength) + (Vector3.up * verticalBoost);
                 rb.AddForce(finalForce, ForceMode.Impulse);
+
+                // Check if the player has been eliminated
                 if (player.hitCount == player.maxHitCount)
                 {
-
-
-
                     playerRenderer = other.GetComponent<Renderer>();
                     originalColor = playerRenderer.material.color;
 
-
                     TakeDamage();
-                    
                 }
             }
-            StopAllCoroutines();
-
-            Debug.Log("Player Hit: " + other.name + " | Hits Taken: " + player.hitCount);
         }
-      
     }
     public void TakeDamage()
     {
