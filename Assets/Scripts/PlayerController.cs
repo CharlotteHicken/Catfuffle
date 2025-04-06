@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     public GameObject leftSway;
     public GameObject rightSway;
 
-    PlayerController otherPlayer;
+   public PlayerController otherPlayer;
     [SerializeField]
     [Header("Health Bar UI")]
     public Slider slider;
@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
     public GameObject deathPoof; //particle for when player dies
     PlayerController otherPlayerController;
     public float playerScoreCountDown;
+
     bool hasScored;
     void Start()
     {
@@ -186,7 +187,7 @@ public class PlayerController : MonoBehaviour
         if (eliminatedBy != null)
         {
             score();
-            Debug.Log(eliminatedBy.name);
+           // Debug.Log(eliminatedBy.name);
         }
 
 
@@ -520,7 +521,8 @@ public class PlayerController : MonoBehaviour
 
     void score()
     {
-
+        
+        Debug.Log("Slapped BY: " + eliminatedBy.name);
         if (eliminatedBy != null && otherPlayer.isDying == true)
         {
             Debug.Log("yeses");

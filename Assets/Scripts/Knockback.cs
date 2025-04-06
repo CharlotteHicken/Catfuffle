@@ -25,7 +25,8 @@ public class Knockback : MonoBehaviour
             }
     private void Update()
     {
-        
+
+
         //Debug.Log(timer);
         if (smackBool==true)
         {
@@ -63,10 +64,11 @@ public class Knockback : MonoBehaviour
             {
                 // Assign the eliminator (this is the player who hits)
 
-                if (scoreKeeper != null)
-                {
-                   player.PElimninator(this.player);  // Set the eliminatedBy reference
-                }
+
+                player.eliminatedBy = scoreKeeper;
+                player.otherPlayer = player; // Set the eliminatedBy reference
+                //scoreKeeper.otherPlayer = player.otherPlayer;
+               
 
                 Vector3 knockbackDirection = (transform.position + transform.forward).normalized;
                 Vector3 finalForce = (knockbackDirection * knockbackStrength) + (Vector3.up * verticalBoost);
