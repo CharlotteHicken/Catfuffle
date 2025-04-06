@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Dying?" + isDying);
         Debug.Log(hasScored);
-        rb.useGravity = true;
+        //rb.useGravity = true;
         if (eliminatedBy == null)
         {
             Debug.Log(eliminatedBy);
@@ -436,8 +436,8 @@ public class PlayerController : MonoBehaviour
 
             timer = 0;
             hitCount = 0;
-          
-           slider.value = sliderValue;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            slider.value = sliderValue;
           //  slider.image.color = sliderOGColor;
         }
     }
