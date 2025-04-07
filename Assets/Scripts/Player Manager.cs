@@ -28,6 +28,11 @@ public class PlayerManager : MonoBehaviour
     public float gameTimeLength;
     float currentTime = 0;
     public TextMeshProUGUI roundTimer;
+    //audio stuff
+    public AudioManager audioManager;
+    public bool playVictory = false;
+    public bool playMenue = false;
+    public bool playBattle = false;
 
     public List<PlayerController> players;
     // Start is called before the first frame update
@@ -38,14 +43,15 @@ public class PlayerManager : MonoBehaviour
 
 
     }
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
+    }
 
     // Update is called once per frame
     void Update()
     {
-
-
-
 
         if (menuResetTime)
         {
@@ -54,6 +60,13 @@ public class PlayerManager : MonoBehaviour
 
         if (menuOn)
         {
+            if (!playMenue)
+            {
+                audioManager.PlayMusic(audioManager.Menue);
+                audioManager.volumeZeroPointZeroOne();
+                playMenue = true;
+            }
+            
             if (Input.GetAxis("Jump1") != 0)
             {
                 isPlayer1 = true;
@@ -82,6 +95,9 @@ public class PlayerManager : MonoBehaviour
                 menuOn = false;
             }
         }
+
+        playMenue = false; 
+
         if (tutorialOn)
         {
             tutorialScreen.SetActive(true);
@@ -122,8 +138,17 @@ public class PlayerManager : MonoBehaviour
                 //do another timer for a few seconds just zoomed on them
                 //maybe some cool effects
                 MenuRestart();
+
+                if (!playVictory)
+                {
+                    audioManager.PlayMusic(audioManager.Victory);
+                    audioManager.volumeZeroPointTwo();
+                    playVictory = true;
+                }
                 currentTime = 0;
             }
+            playVictory = false;
+
             // Find all game objects with the tag "Player"
             GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
