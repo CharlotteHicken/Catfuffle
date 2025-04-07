@@ -8,9 +8,12 @@ public class Scoring : MonoBehaviour
 {
     // Start is called before the first frame update
     public TextMeshProUGUI scoreCount;
-    float currentScore;
+    public float currentScore;
 
-
+    private void Update()
+    {
+        
+    }
     public void AddScore()
     {
             currentScore += 1; // Add 1 point per elimination

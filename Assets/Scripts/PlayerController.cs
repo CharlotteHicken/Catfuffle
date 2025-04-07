@@ -82,9 +82,9 @@ public class PlayerController : MonoBehaviour
     public AudioManager audioManager;
 
     float timeElapsed;
-    bool isDying = false;
+    public bool isDying = false;
     // Start is called before the first frame update
-    float timer;
+    public float timer;
     //to log telemetry buttom mash
     private int mashCount = 0;
     private float mashStartTime = 0f;
@@ -532,10 +532,7 @@ public class PlayerController : MonoBehaviour
                 hasScored = true;  // Prevent further scoring for the same elimination
             }
         }
-        if(hasScored)
-        {
-            eliminatedBy = null;
-        }
+      
        
     }
 
@@ -614,7 +611,7 @@ public class PlayerController : MonoBehaviour
             timeElapsed = 0f;
             isDying = false;
             hitCount = 0;
-            
+            slider.value = 10;
             eliminatedBy = null;
 
         }
