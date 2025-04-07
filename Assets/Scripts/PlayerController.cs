@@ -79,7 +79,12 @@ public class PlayerController : MonoBehaviour
     public bool isRightSlapping;
     private float slapTimer = 0f;
     private bool isSlapping = false;
+    //audio stuff
     public AudioManager audioManager;
+    public bool hasLSlapped = false;
+    public bool hasRSlapped = false;
+    public bool hasBeenMurdered = false;
+    public bool hasBeenPuufed = false;
 
     float timeElapsed;
     public bool isDying = false;
@@ -408,13 +413,18 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-        void SlappedOut()
+    void SlappedOut()
     {
-
+        
 
         if (hitCount >= maxHitCount && timer < 10 && isDying == false)
         {
-            audioManager.PlaySFX(audioManager.Death);
+            if (!hasBeenMurdered)
+            {
+                audioManager.PlaySFX(audioManager.Death);
+                hasBeenMurdered = true;
+            }
+
             gameObject.tag = "Downed";
             //Debug.Log(timer);
             timer += Time.deltaTime;
@@ -438,6 +448,7 @@ public class PlayerController : MonoBehaviour
             hitCount = 0;
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             slider.value = sliderValue;
+            hasBeenMurdered = false;
           //  slider.image.color = sliderOGColor;
         }
     }
@@ -540,23 +551,48 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetAxis(slapL) > 0 )
         {
-            audioManager.PlaySFX(audioManager.Swinging);
-            ani.SetBool("leftArm", true);
+
+            if (!hasLSlapped)
+            {
+                audioManager.PlaySFX(audioManager.Swinging);
+                ani.SetBool("leftArm", true);
+
+                hasLSlapped = true;
+            }
+            
+            
             leftSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
             leftSway.SetActive(true);
         }
 
+        if (Input.GetAxis(slapL) <= 0)
+        {
+            hasLSlapped = false;
+        }
+
         if (Input.GetAxis(slapR) > 0)
         {
-            audioManager.PlaySFX(audioManager.Swinging);
-            ani.SetBool("rightArm", true);
+            if (!hasRSlapped)
+            {
+                audioManager.PlaySFX(audioManager.Swinging);
+                ani.SetBool("rightArm", true);
+
+                hasRSlapped = true;
+            }
+            
+           
             rightSlapCollider.SetActive(true);
             isSlapping = true;
             slapTimer = 0f; // Reset timer
             rightSway.SetActive(true);
 
+        }
+
+        if (Input.GetAxis(slapR) <= 0)
+        {
+            hasRSlapped = false;
         }
 
         if (isSlapping)
@@ -594,12 +630,19 @@ public class PlayerController : MonoBehaviour
         //set poof dying particle to active
         catBody.SetActive(false);
         deathPoof.SetActive(true);
+        if (!hasBeenPuufed)
+        {
+            audioManager.PlaySFX(audioManager.Pop);
+            hasBeenPuufed = true;
+        }
+        
         //  Debug.Log("Time Passed in kill volume: " + timeElapsed);
         //hasScored = true;
         timeElapsed += Time.deltaTime;
         if(timeElapsed >=2.0f)
         {
             deathPoof.SetActive(false);
+            hasBeenPuufed = false;
             transform.position = new Vector3(0f, 1.5f, 0);
         }
         if (timeElapsed >= 5.0f)//wait before respawn
