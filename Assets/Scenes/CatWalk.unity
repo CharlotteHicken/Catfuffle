@@ -3709,7 +3709,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658163043}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 367a48ccd282bf1459bf635afd96f064, type: 3}
   m_Name: 
@@ -3830,6 +3830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreCount: {fileID: 670771166}
+  currentScore: 0
 --- !u!1 &1812811568
 GameObject:
   m_ObjectHideFlags: 0
@@ -5206,6 +5207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreCount: {fileID: 441041352}
+  currentScore: 0
 --- !u!114 &8784357040856292712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5219,6 +5221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreCount: {fileID: 1921524678}
+  currentScore: 0
 --- !u!224 &8900306824492266427 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8753205908903552276, guid: 524ed9369d863024f9232711d59f1755, type: 3}
