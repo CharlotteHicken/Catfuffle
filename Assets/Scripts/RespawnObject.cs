@@ -6,11 +6,13 @@ public class RespawnObject : MonoBehaviour
 {
     Vector3 startPosition;
     bool isDying;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,7 @@ public class RespawnObject : MonoBehaviour
     void Dying()
     {
         transform.position = startPosition;
+        rb.velocity = Vector3.zero;
         isDying = false;
     }
 }
