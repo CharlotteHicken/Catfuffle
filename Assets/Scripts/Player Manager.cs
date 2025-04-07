@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         gameTimeLength = 300;
-
+        Screen.SetResolution(1920, 1080, true);
 
     }
 
