@@ -116,22 +116,24 @@ void Update()
         if (!menuOn && !tutorialOn)
         {
             GameTime();
-
-            if (isPlayer1)
+            if (gameTimeLength > 0)
             {
-                player1.SetActive(true);
-            }
-            if (isPlayer2)
-            {
-                player2.SetActive(true);
-            }
-            if (isPlayer3)
-            {
-                player3.SetActive(true);
-            }
-            if (isPlayer4)
-            {
-                player4.SetActive(true);
+                if (isPlayer1)
+                {
+                    player1.SetActive(true);
+                }
+                if (isPlayer2)
+                {
+                    player2.SetActive(true);
+                }
+                if (isPlayer3)
+                {
+                    player3.SetActive(true);
+                }
+                if (isPlayer4)
+                {
+                    player4.SetActive(true);
+                }
             }
         }
 
@@ -194,12 +196,14 @@ void Update()
             winner.gameObject.SetActive(true); // Activate only the winner
 
             winScreen.SetActive(true);
+          
             roundTimer.text = " ";
             timeElasped += Time.deltaTime;
             if (timeElasped >= (winScreenTime + gameTimeLength))
             {
                 timeElasped = 0;
                 playVictory = false;
+
                 MenuRestart();
             }
         }
@@ -222,6 +226,16 @@ void Update()
             isPlayer2 = false;
             isPlayer3 = false;
             isPlayer4 = false;
+
+            players[0].scoreTracker.currentScore = 0f;
+            players[1].scoreTracker.currentScore = 0f;
+            players[2].scoreTracker.currentScore = 0f;
+            players[3].scoreTracker.currentScore = 0f;
+            players[0].scoreTracker.scoreCount.text =""+ players[0].scoreTracker.currentScore;
+            players[1].scoreTracker.scoreCount.text = "" + players[1].scoreTracker.currentScore;
+            players[2].scoreTracker.scoreCount.text = "" + players[2].scoreTracker.currentScore;
+            players[3].scoreTracker.scoreCount.text = "" + players[3].scoreTracker.currentScore;
+
             gameTimeLength = 300;
           
             //reset scores
