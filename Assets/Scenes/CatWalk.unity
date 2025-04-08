@@ -3965,6 +3965,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4970928777127787152, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5943122370446860593, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -9641,7 +9645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1172219489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12572,7 +12576,11 @@ MonoBehaviour:
   gameTimeLength: 300
   roundTimer: {fileID: 2000377077}
   winScreenTime: 10
-  players: []
+  players:
+  - {fileID: 2623611395955376192}
+  - {fileID: 6152719458936965819}
+  - {fileID: 6063723499906518677}
+  - {fileID: 3440116438685742597}
   audioManager: {fileID: 0}
   playVictory: 0
   playMenue: 0

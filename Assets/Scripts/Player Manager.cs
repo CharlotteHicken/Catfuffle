@@ -45,29 +45,11 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
     }
 
     void Start()
     {
         Screen.SetResolution(1920, 1080, true);
-        // Find all game objects with the tag "Player"
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-
-        // Iterate over each found player object
-        foreach (GameObject playerObject in playerObjects)
-        {
-            // Get the PlayerController component from the player object
-            PlayerController playerController = playerObject.GetComponent<PlayerController>();
-
-            // If the PlayerController exists on the player object, add it to the list
-            if (playerController != null)
-            {
-                players.Add(playerController);  // Add the playerController to the list
-                Debug.Log("Found player with PlayerController: " + playerController.gameObject.name);
-            }
-
-        }
     }
 
 
@@ -151,35 +133,6 @@ void Update()
             {
                 player4.SetActive(true);
             }
-
-           
-           
-            
-           if (i < 4)
-            {
-                i = 0;
-            }
-            while (i < 4)
-            {
-                if (players[i].scoreTracker.currentScore >= 5)
-                {
-                    i++;
-                    if (players[i].scoreTracker.currentScore <= 5)
-                    {
-                        players[i].gameObject.SetActive(false);
-                    }
-                }
-                if (gameTimeLength <= 0)
-                {
-                    i++;
-                    if (players[i].scoreTracker.currentScore < players[i + 1].scoreTracker.currentScore)
-                    {
-                        players[i].gameObject.SetActive(false);
-                    }
-
-
-                }
-            }
         }
 
         void GameTime()
@@ -191,7 +144,7 @@ void Update()
             int convertToSeconds = Mathf.FloorToInt(gameTimeLength % 60); // Get remaining seconds after converting to minutes
 
             roundTimer.text = string.Format("{0:00}:{1:00}", convertToMinutes, convertToSeconds); // Format the timer display
-            if (timeElasped >= gameTimeLength)
+            if (0 >= gameTimeLength)
             {
                 if (!playVictory)
                 {
@@ -199,47 +152,56 @@ void Update()
                     audioManager.volumeZeroPointTwo();
                     playVictory = true;
                 }
-                winMenu();
+                DetermineWinner();
             }
-            playVictory = false;
         }
-  
-        void winMenu()
+
+        void DetermineWinner()
         {
-            //zoom into winner player by deactivating loser players
-            //if (player 1 has highest score){
-                player2.SetActive(false);
-                player3.SetActive(false);
-                player4.SetActive(false);
-            //}
-            //if (player 2 has highest score){
-                player1.SetActive(false);
-                player3.SetActive(false);
-                player4.SetActive(false);
-            //}
-            //if (player 3 has highest score){
-                player2.SetActive(false);
-                player1.SetActive(false);
-                player4.SetActive(false);
-            //}
-            //if (player 4 has highest score){
-                player2.SetActive(false);
-                player3.SetActive(false);
-                player1.SetActive(false);
-            //}
+            PlayerController winner = null;
+            float highestScore = -1;
+
+            foreach (var player in players)
+            {
+                Debug.Log($"Player: {player.gameObject.name}, Score: {player.scoreTracker.currentScore}");
+                if (player.scoreTracker.currentScore > highestScore)
+                {
+                    highestScore = player.scoreTracker.currentScore;
+                    winner = player;
+                }
+            }
+
+            if (winner != null)
+            {
+                Debug.Log($"Winner: {winner.gameObject.name} with Score: {highestScore}");
+                ShowWinScreen(winner);
+            }
+            else
+            {
+                Debug.LogWarning("No winner found!");
+            }
+        }
+
+        void ShowWinScreen(PlayerController winner)
+        {
+            Debug.Log("Showing win screen...");
+            
+            player1.SetActive(false); // Deactivate all players first
+            player2.SetActive(false);
+            player3.SetActive(false);
+            player4.SetActive(false);
+            
+            winner.gameObject.SetActive(true); // Activate only the winner
+
             winScreen.SetActive(true);
             roundTimer.text = " ";
-
             timeElasped += Time.deltaTime;
             if (timeElasped >= (winScreenTime + gameTimeLength))
             {
                 timeElasped = 0;
+                playVictory = false;
                 MenuRestart();
             }
-            
-            //maybe some cool effects
-
-
         }
 
         void MenuRestart()
