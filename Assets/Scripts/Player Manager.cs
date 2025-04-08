@@ -77,7 +77,7 @@ public class PlayerManager : MonoBehaviour
                 player4Icon.SetActive(true);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButtonDown("Button9") || Input.GetKeyDown(KeyCode.Space))
             {
                 tutorialOn = true;
                 menuScreen.SetActive(false);
@@ -87,7 +87,7 @@ public class PlayerManager : MonoBehaviour
         if (tutorialOn)
         {
             tutorialScreen.SetActive(true);
-            if (Input.GetKey(KeyCode.Escape))
+            if (Input.GetButtonDown("ButtonO") || Input.GetKey(KeyCode.Escape))
             {
                 tutorialScreen.SetActive(false);
                 tutorialOn = false;
