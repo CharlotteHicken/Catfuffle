@@ -675,7 +675,7 @@ public class PlayerController : MonoBehaviour
             eliminatedBy = null;
             hasScored = false; 
             skinnedMeshRenderer.material = playerMat;
-
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
     }
 }
