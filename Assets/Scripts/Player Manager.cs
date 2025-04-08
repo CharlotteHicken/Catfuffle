@@ -36,6 +36,17 @@ public class PlayerManager : MonoBehaviour
     public List<PlayerController> players;
     // Start is called before the first frame update
 
+    public AudioManager audioManager;
+    public bool playVictory = false;
+    public bool playMenue = false;
+    public bool playBattle = false;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+    }
+
     void Start()
     {
         Screen.SetResolution(1920, 1080, true);
@@ -64,9 +75,6 @@ public class PlayerManager : MonoBehaviour
 void Update()
     {
 
-
-
-
         if (menuResetTime)
         {
             MenuRestart();
@@ -74,6 +82,13 @@ void Update()
 
         if (menuOn)
         {
+            if (!playMenue)
+            {
+                audioManager.PlayMusic(audioManager.Menue);
+                audioManager.volumeZeroPointZeroOne();
+                playMenue = true;
+            }
+
             if (Input.GetAxis("Jump1") != 0)
             {
                 isPlayer1 = true;
@@ -101,7 +116,9 @@ void Update()
                 menuScreen.SetActive(false);
                 menuOn = false;
             }
+
         }
+        playMenue = false;
         if (tutorialOn)
         {
             tutorialScreen.SetActive(true);
@@ -172,8 +189,15 @@ void Update()
             roundTimer.text = string.Format("{0:00}:{1:00}", convertToMinutes, convertToSeconds); // Format the timer display
             if (timeElasped >= gameTimeLength)
             {
+                if (!playVictory)
+                {
+                    audioManager.PlayMusic(audioManager.Victory);
+                    audioManager.volumeZeroPointTwo();
+                    playVictory = true;
+                }
                 winMenu();
             }
+            playVictory = false;
         }
   
         void winMenu()
