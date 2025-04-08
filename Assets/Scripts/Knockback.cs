@@ -42,6 +42,11 @@ public class Knockback : MonoBehaviour
          
             timer = 0;  // Reset the timer
         }
+        if (isFlashing ==true)
+        {
+            playerRenderer.material = player.otherPlayer.skinnedMeshRenderer.material ;
+        }
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -88,12 +93,7 @@ public class Knockback : MonoBehaviour
                     player.eliminatedBy = null;
                     scoreKeeper.otherPlayer = null;
                 }
-                if(isFlashing==false
-                    )
-                {
-                    playerRenderer.material = originalMaterial;
-                }
-                
+             
                 player.CheckElimination();
 
                 Vector3 knockbackDirection = (transform.position + transform.forward).normalized;

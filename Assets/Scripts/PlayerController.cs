@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
     public GameObject deathPoof; //particle for when player dies
     PlayerController otherPlayerController;
     public float playerScoreCountDown;
-    SkinnedMeshRenderer skinnedMeshRenderer;
+    public SkinnedMeshRenderer skinnedMeshRenderer;
     Material playerMat;
     float timerMat;
     public bool hasScored;
@@ -630,7 +630,6 @@ public class PlayerController : MonoBehaviour
 
             if (slapTimer >= 0.5f) // Stop animation after 1 second
             {
-              //  otherPlayer.skinnedMeshRenderer.material = otherPlayer.playerMat;
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
                 leftSlapCollider.SetActive(false);
