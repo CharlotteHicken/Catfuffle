@@ -10311,6 +10311,9 @@ MonoBehaviour:
   Death: {fileID: 8300000, guid: 15bbc791bda061b489378d7622323d62, type: 3}
   Pop: {fileID: 8300000, guid: dca90636b8069eb4787ef29e8a8d7f88, type: 3}
   Bounce: {fileID: 8300000, guid: 0e0dffa5dabba2e4eaadaf1204c5f328, type: 3}
+  Menue: {fileID: 8300000, guid: 9fa3fb65397135443a74ac2e1d8e0f9b, type: 3}
+  Battle: {fileID: 0}
+  Victory: {fileID: 8300000, guid: c7e7d0f7cbf25c8449b71ec43b6940aa, type: 3}
 --- !u!1 &1349294245
 GameObject:
   m_ObjectHideFlags: 0
@@ -12180,6 +12183,10 @@ MonoBehaviour:
   roundTimer: {fileID: 2000377077}
   winScreenTime: 10
   players: []
+  audioManager: {fileID: 0}
+  playVictory: 0
+  playMenue: 0
+  playBattle: 0
 --- !u!4 &1658163045
 Transform:
   m_ObjectHideFlags: 0
