@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
     PlayerController otherPlayerController;
     public float playerScoreCountDown;
     public SkinnedMeshRenderer skinnedMeshRenderer;
-    Material playerMat;
+    public Material playerMat;
     float timerMat;
     public bool hasScored;
     void Start()
@@ -143,20 +143,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        timerMat += 1* Time.deltaTime;
-        if (playerMat!=playerMat)
-        {
-          timerMat += Time.deltaTime;
-            if(timerMat <2)
-            {
-                
-                
-            }
-            if(timerMat >3)
-            {
-                timer = 0;
-            }
-        }
+      
         Debug.Log("Dying?" + isDying);
         Debug.Log(hasScored);
         //rb.useGravity = true;
