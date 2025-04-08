@@ -6,6 +6,7 @@ using TMPro;
 using NodeCanvas.Tasks.Actions;
 using JetBrains.Annotations;
 using System;
+using System.Linq;
 public class PlayerManager : MonoBehaviour
 {
     public GameObject player1;
@@ -31,19 +32,36 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI roundTimer;
     float timeElasped;
     public float winScreenTime = 10;
-
+    int i = 0;
     public List<PlayerController> players;
     // Start is called before the first frame update
 
     void Start()
     {
         Screen.SetResolution(1920, 1080, true);
+        // Find all game objects with the tag "Player"
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
+        // Iterate over each found player object
+        foreach (GameObject playerObject in playerObjects)
+        {
+            // Get the PlayerController component from the player object
+            PlayerController playerController = playerObject.GetComponent<PlayerController>();
+
+            // If the PlayerController exists on the player object, add it to the list
+            if (playerController != null)
+            {
+                players.Add(playerController);  // Add the playerController to the list
+                Debug.Log("Found player with PlayerController: " + playerController.gameObject.name);
+            }
+
+        }
     }
 
 
-    // Update is called once per frame
-    void Update()
+
+// Update is called once per frame
+void Update()
     {
 
 
@@ -116,45 +134,40 @@ public class PlayerManager : MonoBehaviour
                 player4.SetActive(true);
             }
 
-            // Find all game objects with the tag "Player"
-            GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-
-            // Iterate over each found player object
-            foreach (GameObject playerObject in playerObjects)
+            
+            i++;
+            
+            if (i < 4)
             {
-                // Get the PlayerController component from the player object
-                PlayerController playerController = playerObject.GetComponent<PlayerController>();
+                i = 0;
+            }
+            if (players[i].scoreTracker.currentScore > 10)
+            {
+                if (players[i].scoreTracker.currentScore < 10)
+                {
+                    players[i].gameObject.SetActive(false);
+                }
+            }
+            if (gameTimeLength < 0)
+            {
+               
+                if (players[i].scoreTracker.currentScore < players[i].scoreTracker.currentScore)
+                {
+                    players[i].gameObject.SetActive(false);
+                }
 
-                // If the PlayerController exists on the player object, add it to the list
-                if (playerController != null)
-                {
-                    players.Add(playerController);  // Add the playerController to the list
-                    Debug.Log("Found player with PlayerController: " + playerController.gameObject.name);
-                }
-                if (playerController.scoreTracker.currentScore > 10)
-                {
-                    if (playerController.scoreTracker.currentScore < 10)
-                    {
-                        playerObject.SetActive(false);
-                    }
-                }
 
             }
 
-
-
         }
-
-
 
         void GameTime()
         {
+            gameTimeLength -= Time.deltaTime; // Decrease time by delta time each frame
 
-            timeElasped += Time.deltaTime; // Decrease time by delta time each frame
 
-
-            int convertToMinutes = Mathf.FloorToInt((gameTimeLength - timeElasped) / 60); // Convert seconds to minutes
-            int convertToSeconds = Mathf.FloorToInt((gameTimeLength - timeElasped) % 60); // Get remaining seconds after converting to minutes
+            int convertToMinutes = Mathf.FloorToInt(gameTimeLength / 60); // Convert seconds to minutes
+            int convertToSeconds = Mathf.FloorToInt(gameTimeLength % 60); // Get remaining seconds after converting to minutes
 
             roundTimer.text = string.Format("{0:00}:{1:00}", convertToMinutes, convertToSeconds); // Format the timer display
             if (timeElasped >= gameTimeLength)
@@ -162,11 +175,7 @@ public class PlayerManager : MonoBehaviour
                 winMenu();
             }
         }
-        void scoreCounter()
-        {
-
-        }
-
+  
         void winMenu()
         {
             //zoom into winner player by deactivating loser players

@@ -9369,7 +9369,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1172219489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12144,7 +12144,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658163043}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 367a48ccd282bf1459bf635afd96f064, type: 3}
   m_Name: 
@@ -12160,7 +12160,7 @@ MonoBehaviour:
   menuScreen: {fileID: 36569834}
   tutorialScreen: {fileID: 534594989}
   winScreen: {fileID: 1157055805}
-  gameTimeLength: 10
+  gameTimeLength: 300
   roundTimer: {fileID: 2000377077}
   winScreenTime: 10
   players: []

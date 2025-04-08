@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
     PlayerController otherPlayerController;
     public float playerScoreCountDown;
 
-    bool hasScored;
+    public bool hasScored;
     void Start()
     {
 
@@ -192,7 +192,11 @@ public class PlayerController : MonoBehaviour
         if (eliminatedBy != null)
         {
             score();
-           // Debug.Log(eliminatedBy.name);
+            Debug.Log("Eliminated by: " +eliminatedBy.name);
+        }
+        if(eliminatedBy==null)
+        {
+            Debug.Log(gameObject.name + " This is null.");
         }
 
 
@@ -411,7 +415,10 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("interaction reset");
                 hasScored = false;  // Ensure scoring flag is reset after respawn or elimination
             }
+         
         }
+        
+        
     }
     void SlappedOut()
     {
@@ -541,8 +548,11 @@ public class PlayerController : MonoBehaviour
             {
                 eliminatedBy.scoreTracker.AddScore();  // Increment by 1 point for the elimination
                 hasScored = true;  // Prevent further scoring for the same elimination
+                
             }
+
         }
+    
       
        
     }
@@ -656,7 +666,7 @@ public class PlayerController : MonoBehaviour
             hitCount = 0;
             slider.value = 10;
             eliminatedBy = null;
-
+            hasScored = false;
         }
     }
 }

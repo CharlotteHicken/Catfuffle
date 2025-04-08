@@ -68,7 +68,14 @@ public class Knockback : MonoBehaviour
                 player.eliminatedBy = scoreKeeper;
                 player.otherPlayer = player; // Set the eliminatedBy reference
                 scoreKeeper.otherPlayer = player.otherPlayer;
-               
+                if (player.otherPlayer. isDying == true)
+                {
+                    scoreKeeper.hasScored = false;
+                    player.otherPlayer = null;
+                    player.eliminatedBy = null;
+                    scoreKeeper.otherPlayer = null;
+                }
+              player.CheckElimination();
 
                 Vector3 knockbackDirection = (transform.position + transform.forward).normalized;
                 Vector3 finalForce = (knockbackDirection * knockbackStrength) + (Vector3.up * verticalBoost);
