@@ -661,12 +661,14 @@ public class PlayerController : MonoBehaviour
             deathPoof.SetActive(false);
             
             transform.position = new Vector3(0f, 1.5f, 0);
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         if (timeElapsed >= 5.0f)//wait before respawn
         {
 
             hasBeenPuufed = false;
             transform.position = new Vector3(0f, 1.5f, 0);
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             catBody.SetActive(true);
             timeElapsed = 0f;
             isDying = false;

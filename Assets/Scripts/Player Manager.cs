@@ -29,11 +29,9 @@ public class PlayerManager : MonoBehaviour
     bool menuOn = true;
     bool tutorialOn = false;
     public float gameTimeLength = 300;
-    float currentTime = 0;
     public TextMeshProUGUI roundTimer;
     float timeElasped;
     public float winScreenTime = 10;
-    int i = 0;
     public List<PlayerController> players;
     // Start is called before the first frame update
 
