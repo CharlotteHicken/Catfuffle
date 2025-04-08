@@ -22,19 +22,21 @@ public class PlayerManager : MonoBehaviour
     public GameObject player4Icon;
     public GameObject menuScreen;
     public GameObject tutorialScreen;
+    public GameObject winScreen;
     bool menuResetTime = true;
     bool menuOn = true;
     bool tutorialOn = false;
-    public float gameTimeLength;
+    public float gameTimeLength = 300;
     float currentTime = 0;
     public TextMeshProUGUI roundTimer;
+    float timeElasped;
+    public float winScreenTime = 10;
 
     public List<PlayerController> players;
     // Start is called before the first frame update
 
     void Start()
     {
-        gameTimeLength = 300;
         Screen.SetResolution(1920, 1080, true);
 
     }
@@ -114,16 +116,6 @@ public class PlayerManager : MonoBehaviour
                 player4.SetActive(true);
             }
 
-
-
-            if (currentTime > gameTimeLength)
-            {
-                //zoom into winner player by deactivating loser players
-                //do another timer for a few seconds just zoomed on them
-                //maybe some cool effects
-                MenuRestart();
-                currentTime = 0;
-            }
             // Find all game objects with the tag "Player"
             GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
@@ -157,22 +149,59 @@ public class PlayerManager : MonoBehaviour
 
         void GameTime()
         {
-            if (gameTimeLength > 0)
-            {
-                gameTimeLength -= Time.deltaTime; // Decrease time by delta time each frame
-            }
 
-            int convertToMinutes = Mathf.FloorToInt(gameTimeLength / 60); // Convert seconds to minutes
-            int convertToSeconds = Mathf.FloorToInt(gameTimeLength % 60); // Get remaining seconds after converting to minutes
+            timeElasped += Time.deltaTime; // Decrease time by delta time each frame
+
+
+            int convertToMinutes = Mathf.FloorToInt((gameTimeLength - timeElasped) / 60); // Convert seconds to minutes
+            int convertToSeconds = Mathf.FloorToInt((gameTimeLength - timeElasped) % 60); // Get remaining seconds after converting to minutes
 
             roundTimer.text = string.Format("{0:00}:{1:00}", convertToMinutes, convertToSeconds); // Format the timer display
-            if (gameTimeLength <= 0)
+            if (timeElasped >= gameTimeLength)
             {
-                MenuRestart();
+                winMenu();
             }
         }
         void scoreCounter()
         {
+
+        }
+
+        void winMenu()
+        {
+            //zoom into winner player by deactivating loser players
+            //if (player 1 has highest score){
+                player2.SetActive(false);
+                player3.SetActive(false);
+                player4.SetActive(false);
+            //}
+            //if (player 2 has highest score){
+                player1.SetActive(false);
+                player3.SetActive(false);
+                player4.SetActive(false);
+            //}
+            //if (player 3 has highest score){
+                player2.SetActive(false);
+                player1.SetActive(false);
+                player4.SetActive(false);
+            //}
+            //if (player 4 has highest score){
+                player2.SetActive(false);
+                player3.SetActive(false);
+                player1.SetActive(false);
+            //}
+            winScreen.SetActive(true);
+            roundTimer.text = " ";
+
+            timeElasped += Time.deltaTime;
+            if (timeElasped >= (winScreenTime + gameTimeLength))
+            {
+                timeElasped = 0;
+                MenuRestart();
+            }
+            
+            //maybe some cool effects
+
 
         }
 
@@ -187,6 +216,7 @@ public class PlayerManager : MonoBehaviour
             player3Icon.SetActive(false);
             player4Icon.SetActive(false);
             menuScreen.SetActive(true);
+            winScreen.SetActive(false);
             menuResetTime = false;
             menuOn = true;
             isPlayer1 = false;
