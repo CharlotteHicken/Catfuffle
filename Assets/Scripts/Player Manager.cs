@@ -7,6 +7,7 @@ using NodeCanvas.Tasks.Actions;
 using JetBrains.Annotations;
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 public class PlayerManager : MonoBehaviour
 {
     public GameObject player1;
@@ -152,30 +153,33 @@ void Update()
             }
 
            
-            //i++;
+           
             
-            //if (i < 4)
-            //{
-            //    i = 0;
-            //}
-            //if (players[i].scoreTracker.currentScore >= 5)
-            //{
-            //    if (players[i].scoreTracker.currentScore <=5)
-            //    {
-            //        players[i].gameObject.SetActive(false);
-            //    }
-            //}
-            //if (gameTimeLength <= 0)
-            //{
-               
-            //    if (players[i].scoreTracker.currentScore < players[i+1].scoreTracker.currentScore)
-            //    {
-            //        players[i].gameObject.SetActive(false);
-            //    }
+         /*   if (i < 4)
+            {
+                i = 0;
+            }
+            while (i < 4)
+            {
+                if (players[i].scoreTracker.currentScore >= 5)
+                {
+                    i++;
+                    if (players[i].scoreTracker.currentScore <= 5)
+                    {
+                        players[i].gameObject.SetActive(false);
+                    }
+                }
+                if (gameTimeLength <= 0)
+                {
+                    i++;
+                    if (players[i].scoreTracker.currentScore < players[i + 1].scoreTracker.currentScore)
+                    {
+                        players[i].gameObject.SetActive(false);
+                    }
 
 
-            //}
-
+                }
+            }*/
         }
 
         void GameTime()
