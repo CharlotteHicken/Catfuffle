@@ -3868,6 +3868,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 368.7
       objectReference: {fileID: 0}
+    - target: {fileID: 3214455630315893507, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4677058968913685225, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: m_TagString
       value: Body
@@ -3963,6 +3967,10 @@ PrefabInstance:
     - target: {fileID: 8784357040386062207, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787252474830050475, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: ShapeModule.m_Texture
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7090,7 +7098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.60784316, b: 0.7697722, a: 1}
+  m_Color: {r: 0.3531061, g: 0.5297206, b: 0.6509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7831,8 +7839,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.12953897, g: 0.28989637, b: 0.6698113, a: 1}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 0.98039216, b: 0.73333335, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -12365,7 +12373,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658163043}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 367a48ccd282bf1459bf635afd96f064, type: 3}
   m_Name: 

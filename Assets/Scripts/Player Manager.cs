@@ -151,24 +151,24 @@ void Update()
                 player4.SetActive(true);
             }
 
-            
+           
             i++;
             
             if (i < 4)
             {
                 i = 0;
             }
-            if (players[i].scoreTracker.currentScore > 10)
+            if (players[i].scoreTracker.currentScore >= 5)
             {
-                if (players[i].scoreTracker.currentScore < 10)
+                if (players[i].scoreTracker.currentScore <=5)
                 {
                     players[i].gameObject.SetActive(false);
                 }
             }
-            if (gameTimeLength < 0)
+            if (gameTimeLength <= 0)
             {
                
-                if (players[i].scoreTracker.currentScore < players[i].scoreTracker.currentScore)
+                if (players[i].scoreTracker.currentScore < players[i+1].scoreTracker.currentScore)
                 {
                     players[i].gameObject.SetActive(false);
                 }
@@ -256,6 +256,8 @@ void Update()
             isPlayer2 = false;
             isPlayer3 = false;
             isPlayer4 = false;
+            gameTimeLength = 300;
+          
             //reset scores
             //reset player positions
             //any other resets needed go here!
