@@ -157,14 +157,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449363297265936564}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.70685756, y: 0.018771553, z: -0.018771553, w: 0.70685756}
-  m_LocalPosition: {x: -0.0011, y: 0.0158, z: 0.0013860484}
-  m_LocalScale: {x: 0.046070028, y: 0.01568239, z: 0.034710083}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.23046541, y: 0.38600004, z: 0.81079125}
+  m_LocalScale: {x: 0.86825156, y: 0.29417557, z: 1.7324493}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3502558548234417615}
   - {fileID: 6404211423485938080}
-  m_Father: {fileID: 26519593046168126}
+  m_Father: {fileID: 2052463996269112828}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7149613339871585384
 BoxCollider:
@@ -205,6 +205,7 @@ MonoBehaviour:
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 4912239893457195992}
+  scoreKeeper: {fileID: 0}
 --- !u!1 &673918190195988916
 GameObject:
   m_ObjectHideFlags: 0
@@ -10457,14 +10458,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3044054885837575425}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7068645, y: 0.018509898, z: -0.018509898, w: 0.7068645}
-  m_LocalPosition: {x: 0.0103, y: 0.0167, z: -0.0017592206}
-  m_LocalScale: {x: 0.046075992, y: 0.01568239, z: 0.034708377}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.16775417, y: 0.38600004, z: 0.8549676}
+  m_LocalScale: {x: 0.8682518, y: 0.29417557, z: 1.732449}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1652873690719084573}
   - {fileID: 2799189784980816008}
-  m_Father: {fileID: 7305471822765739564}
+  m_Father: {fileID: 8242531719358371342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4695240999447249385
 BoxCollider:
@@ -10505,6 +10506,7 @@ MonoBehaviour:
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 0}
+  scoreKeeper: {fileID: 0}
 --- !u!1 &3214455630315893507
 GameObject:
   m_ObjectHideFlags: 0
@@ -10566,6 +10568,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5072721039146302515}
   - {fileID: 2256915200930486056}
   m_Father: {fileID: 5450359363390140499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16168,12 +16171,22 @@ MonoBehaviour:
   isLeftSlapping: 0
   isRightSlapping: 0
   audioManager: {fileID: 0}
+  hasLSlapped: 0
+  hasRSlapped: 0
+  hasBeenMurdered: 0
+  hasBeenPuufed: 0
+  isDying: 0
+  timer: 0
   leftSway: {fileID: 8566125885989184154}
   rightSway: {fileID: 3351432386627760483}
+  otherPlayer: {fileID: 0}
   slider: {fileID: 5257207170499329511}
   sliderValue: 10
   catBody: {fileID: 4677058968913685225}
+  scoreTracker: {fileID: 0}
+  eliminatedBy: {fileID: 0}
   deathPoof: {fileID: 3214455630315893507}
+  playerScoreCountDown: 0
 --- !u!136 &5677409107650585590
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16477,8 +16490,7 @@ Transform:
   m_LocalPosition: {x: 0.695, y: -0.323, z: -0.03}
   m_LocalScale: {x: 18.758337, y: 50, z: 18.758337}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5072721039146302515}
+  m_Children: []
   m_Father: {fileID: 5450359363390140499}
   m_LocalEulerAnglesHint: {x: 90, y: -3, z: 0}
 --- !u!1 &5712173142079508747
@@ -16618,8 +16630,7 @@ Transform:
   m_LocalPosition: {x: -0.768, y: -0.264, z: 0.027}
   m_LocalScale: {x: 18.758337, y: 50, z: 18.758337}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2154543612276058654}
+  m_Children: []
   m_Father: {fileID: 5450359363390140499}
   m_LocalEulerAnglesHint: {x: 90, y: -3.0424178, z: 0}
 --- !u!1 &7324386217551382507
@@ -16746,6 +16757,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2154543612276058654}
   - {fileID: 640259808909979082}
   m_Father: {fileID: 5450359363390140499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -5247,12 +5247,22 @@ MonoBehaviour:
   isLeftSlapping: 0
   isRightSlapping: 0
   audioManager: {fileID: 0}
+  hasLSlapped: 0
+  hasRSlapped: 0
+  hasBeenMurdered: 0
+  hasBeenPuufed: 0
+  isDying: 0
+  timer: 0
   leftSway: {fileID: 1633109286956119304}
   rightSway: {fileID: 7188541505231727366}
+  otherPlayer: {fileID: 0}
   slider: {fileID: 8038301156926814619}
   sliderValue: 10
   catBody: {fileID: 8959809141848144393}
+  scoreTracker: {fileID: 0}
+  eliminatedBy: {fileID: 0}
   deathPoof: {fileID: 5621277499390784227}
+  playerScoreCountDown: 0
 --- !u!136 &9067954244847201127
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5401,6 +5411,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4640762816669760555}
+  - {fileID: 1383693673470148732}
   m_Father: {fileID: 4679696700277949424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1785532787389076602
@@ -5432,8 +5443,7 @@ Transform:
   m_LocalPosition: {x: -1.2640344, y: -0.52048475, z: 0}
   m_LocalScale: {x: 18.758337, y: 50, z: 18.758337}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1383693673470148732}
+  m_Children: []
   m_Father: {fileID: 4679696700277949424}
   m_LocalEulerAnglesHint: {x: 90, y: -3.0424178, z: 0}
 --- !u!114 &1931546058856725903
@@ -5454,6 +5464,7 @@ MonoBehaviour:
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 7183758538205070499}
+  scoreKeeper: {fileID: 0}
 --- !u!1 &1834432904024202928
 GameObject:
   m_ObjectHideFlags: 0
@@ -5723,8 +5734,7 @@ Transform:
   m_LocalPosition: {x: 1.26403, y: -0.52048475, z: 0}
   m_LocalScale: {x: 18.758337, y: 50, z: 18.758337}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4360903778027214676}
+  m_Children: []
   m_Father: {fileID: 4679696700277949424}
   m_LocalEulerAnglesHint: {x: 90, y: -3, z: 0}
 --- !u!1 &3599463091542622375
@@ -5969,13 +5979,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3842949800026813066}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.70685756, y: 0.018771553, z: -0.018771553, w: 0.70685756}
-  m_LocalPosition: {x: -0.0062, y: 0.0159, z: 0.0013860484}
-  m_LocalScale: {x: 0.046070036, y: 0.01568239, z: 0.03471008}
+  m_LocalRotation: {x: 0.00000008940697, y: -0, z: 0.0000000037252903, w: 1}
+  m_LocalPosition: {x: -0.47536707, y: 0.12951517, z: 0.7837068}
+  m_LocalScale: {x: 0.86825174, y: 0.29417557, z: 1.7324492}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3927714133915014210}
-  m_Father: {fileID: 2730916887680422593}
+  m_Father: {fileID: 3122631567033786639}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1103815794807122975
 BoxCollider:
@@ -6016,6 +6026,7 @@ MonoBehaviour:
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 5703063320547001712}
+  scoreKeeper: {fileID: 0}
 --- !u!1 &3850210373565219593
 GameObject:
   m_ObjectHideFlags: 0
@@ -6042,14 +6053,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3850210373565219593}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7068645, y: 0.018509898, z: -0.018509898, w: 0.7068645}
-  m_LocalPosition: {x: 0.0069, y: 0.0168, z: -0.0017592206}
-  m_LocalScale: {x: 0.046075996, y: 0.01568239, z: 0.034708377}
+  m_LocalRotation: {x: 0.00000008940697, y: -0.0000000027939677, z: 0.0000000055879354, w: 1}
+  m_LocalPosition: {x: 0.22332275, y: 0.18851507, z: 0.8866228}
+  m_LocalScale: {x: 0.86825186, y: 0.29417557, z: 1.732449}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4750210363125196523}
   - {fileID: 7811721715893166414}
-  m_Father: {fileID: 8288493102721058674}
+  m_Father: {fileID: 2703594434931315065}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5537649550804784436
 BoxCollider:
@@ -6090,6 +6101,7 @@ MonoBehaviour:
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 8279691194252246095}
+  scoreKeeper: {fileID: 0}
 --- !u!1 &4079081567275345449
 GameObject:
   m_ObjectHideFlags: 0
@@ -11564,6 +11576,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9170394452359743906}
+  - {fileID: 4360903778027214676}
   m_Father: {fileID: 4679696700277949424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7239170795924336810
