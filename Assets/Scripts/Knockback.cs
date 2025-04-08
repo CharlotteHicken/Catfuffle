@@ -71,7 +71,7 @@ public class Knockback : MonoBehaviour
                
                 player.eliminatedBy = scoreKeeper;
                 player.otherPlayer = player; // Set the eliminatedBy reference
-                scoreKeeper.otherPlayer = player.otherPlayer;
+               // scoreKeeper.otherPlayer = player.otherPlayer;
             
                 if (playerRenderer!=null && !isFlashing)
                 {

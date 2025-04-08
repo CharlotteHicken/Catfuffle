@@ -660,6 +660,7 @@ public class PlayerController : MonoBehaviour
         //set poof dying particle to active
         catBody.SetActive(false);
         deathPoof.SetActive(true);
+
         if (!hasBeenPuufed)
         {
             audioManager.PlaySFX(audioManager.Pop);
@@ -672,13 +673,13 @@ public class PlayerController : MonoBehaviour
         if(timeElapsed >=2.0f)
         {
             deathPoof.SetActive(false);
-            hasBeenPuufed = false;
+            
             transform.position = new Vector3(0f, 1.5f, 0);
         }
         if (timeElapsed >= 5.0f)//wait before respawn
         {
-       
 
+            hasBeenPuufed = false;
             transform.position = new Vector3(0f, 1.5f, 0);
             catBody.SetActive(true);
             timeElapsed = 0f;

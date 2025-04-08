@@ -118,7 +118,7 @@ void Update()
             }
 
         }
-        playMenue = false;
+        
         if (tutorialOn)
         {
             tutorialScreen.SetActive(true);
@@ -126,7 +126,7 @@ void Update()
             {
                 tutorialScreen.SetActive(false);
                 tutorialOn = false;
-
+                playMenue = false;
             }
         }
 
@@ -152,29 +152,29 @@ void Update()
             }
 
            
-            i++;
+            //i++;
             
-            if (i < 4)
-            {
-                i = 0;
-            }
-            if (players[i].scoreTracker.currentScore >= 5)
-            {
-                if (players[i].scoreTracker.currentScore <=5)
-                {
-                    players[i].gameObject.SetActive(false);
-                }
-            }
-            if (gameTimeLength <= 0)
-            {
+            //if (i < 4)
+            //{
+            //    i = 0;
+            //}
+            //if (players[i].scoreTracker.currentScore >= 5)
+            //{
+            //    if (players[i].scoreTracker.currentScore <=5)
+            //    {
+            //        players[i].gameObject.SetActive(false);
+            //    }
+            //}
+            //if (gameTimeLength <= 0)
+            //{
                
-                if (players[i].scoreTracker.currentScore < players[i+1].scoreTracker.currentScore)
-                {
-                    players[i].gameObject.SetActive(false);
-                }
+            //    if (players[i].scoreTracker.currentScore < players[i+1].scoreTracker.currentScore)
+            //    {
+            //        players[i].gameObject.SetActive(false);
+            //    }
 
 
-            }
+            //}
 
         }
 
