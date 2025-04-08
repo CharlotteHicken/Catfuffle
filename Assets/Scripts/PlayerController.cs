@@ -110,7 +110,9 @@ public class PlayerController : MonoBehaviour
     public GameObject deathPoof; //particle for when player dies
     PlayerController otherPlayerController;
     public float playerScoreCountDown;
-
+    SkinnedMeshRenderer skinnedMeshRenderer;
+    Material playerMat;
+    float timerMat;
     public bool hasScored;
     void Start()
     {
@@ -127,6 +129,9 @@ public class PlayerController : MonoBehaviour
        // sliderOGColor = slider.image.color;
         leftSway.SetActive(false);
         rightSway.SetActive(false);
+
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        playerMat = skinnedMeshRenderer.sharedMaterial;
     }
 
     // Update is called once per frame
@@ -138,6 +143,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        timerMat += 1* Time.deltaTime;
+        if (playerMat!=playerMat)
+        {
+          timerMat += Time.deltaTime;
+            if(timerMat <2)
+            {
+                
+                
+            }
+            if(timerMat >3)
+            {
+                timer = 0;
+            }
+        }
         Debug.Log("Dying?" + isDying);
         Debug.Log(hasScored);
         //rb.useGravity = true;
@@ -611,6 +630,7 @@ public class PlayerController : MonoBehaviour
 
             if (slapTimer >= 0.5f) // Stop animation after 1 second
             {
+                otherPlayer.skinnedMeshRenderer.material = otherPlayer.playerMat;
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
                 leftSlapCollider.SetActive(false);
@@ -666,7 +686,9 @@ public class PlayerController : MonoBehaviour
             hitCount = 0;
             slider.value = 10;
             eliminatedBy = null;
-            hasScored = false;
+            hasScored = false; 
+            skinnedMeshRenderer.material = playerMat;
+
         }
     }
 }
