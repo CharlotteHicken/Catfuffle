@@ -475,10 +475,12 @@ MonoBehaviour:
   damage: 1
   knockbackStrength: 10
   verticalBoost: 10
+  redMaterial: {fileID: 0}
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 4843448175605474825}
   scoreKeeper: {fileID: 4177942401080236742}
+  backupMaterial: {fileID: 0}
 --- !u!1 &2761315548969112571
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,10 +814,12 @@ MonoBehaviour:
   damage: 1
   knockbackStrength: 10
   verticalBoost: 10
+  redMaterial: {fileID: 0}
   flashDuration: 0.2
   audioManager: {fileID: 0}
   smackDisplayF1: {fileID: 8382916095659489675}
   scoreKeeper: {fileID: 4177942401080236742}
+  backupMaterial: {fileID: 0}
 --- !u!1 &4205681469017773742
 GameObject:
   m_ObjectHideFlags: 0
@@ -16404,7 +16408,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 43f7dbe01190a544fba11506a69ebfbc, type: 2}
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 274de8c44bae99e45a3425047516d4d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
