@@ -155,7 +155,7 @@ void Update()
            
            
             
-         /*   if (i < 4)
+           if (i < 4)
             {
                 i = 0;
             }
@@ -179,7 +179,7 @@ void Update()
 
 
                 }
-            }*/
+            }
         }
 
         void GameTime()

@@ -17945,7 +17945,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 274de8c44bae99e45a3425047516d4d4, type: 2}
     - target: {fileID: 5621277499390784227, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6258653170295019578, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: scoreTracker
@@ -18843,7 +18843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7691122990851857664, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8102106688260925295, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: m_AnchorMax.x

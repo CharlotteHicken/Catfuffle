@@ -630,7 +630,7 @@ public class PlayerController : MonoBehaviour
 
             if (slapTimer >= 0.5f) // Stop animation after 1 second
             {
-                otherPlayer.skinnedMeshRenderer.material = otherPlayer.playerMat;
+              //  otherPlayer.skinnedMeshRenderer.material = otherPlayer.playerMat;
                 ani.SetBool("leftArm", false);
                 ani.SetBool("rightArm", false);
                 leftSlapCollider.SetActive(false);
