@@ -14,7 +14,7 @@ public class PillowBounce : MonoBehaviour
 
     // Update is called once per frame
  
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         rb = other.GetComponent<Rigidbody>();
         if(rb != null)

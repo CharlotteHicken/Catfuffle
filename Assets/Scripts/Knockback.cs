@@ -39,10 +39,9 @@ public class Knockback : MonoBehaviour
         if (timer > 1)  // Check if the timer has passed 3 seconds
         {
             smackDisplayF1.SetActive(false);
-            if (isFlashing == false)
-            {
+            
                 playerRenderer.material = player.playerMat;
-            }
+            
             timer = 0;  // Reset the timer
         }
        
