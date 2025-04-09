@@ -97,7 +97,7 @@ public class Knockback : MonoBehaviour
                 player.CheckElimination();
 
                 Vector3 knockbackDirection = (transform.position + transform.forward).normalized;
-                Vector3 finalForce = (knockbackDirection * knockbackStrength) + (Vector3.up * verticalBoost);
+                Vector3 finalForce =  (Vector3.up * verticalBoost);
                 rb.AddForce(finalForce, ForceMode.Impulse);
 
 
