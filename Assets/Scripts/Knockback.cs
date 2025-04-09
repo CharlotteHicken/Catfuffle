@@ -52,11 +52,12 @@ public class Knockback : MonoBehaviour
     {
         player = other.GetComponent<PlayerController>();
         playerRenderer = other.GetComponentInChildren<SkinnedMeshRenderer>();
-        originalMaterial = playerRenderer.material;
-        backupMaterial = playerRenderer.material;
+        
         if (player != null)
         {
-           
+
+            playerRenderer.material = redMaterial;
+            
             // Apply damage
             player.hitCount += damage;
             audioManager.PlaySFX(audioManager.Hit);
@@ -81,7 +82,7 @@ public class Knockback : MonoBehaviour
                 if (playerRenderer!=null && !isFlashing)
                 {
                     isFlashing = true;
-                    Flashyred = StartCoroutine(FlashRed());
+                    StartCoroutine(FlashRed());
 
                 }
 
@@ -114,12 +115,9 @@ public class Knockback : MonoBehaviour
         playerRenderer.material = redMaterial;
 
         // Wait for the duration of the flash
-        yield return new WaitForSeconds(0.1f);
-        if (playerRenderer.material == redMaterial)
-        {
-            playerRenderer.material = originalMaterial;
-        }
-        playerRenderer.material = backupMaterial;
+        yield return new WaitForSeconds(flashDuration);
+
+        playerRenderer.material = player.playerMat;
        
         // Restore the original material (color)
      

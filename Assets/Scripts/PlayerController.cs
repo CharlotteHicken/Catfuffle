@@ -681,6 +681,7 @@ public class PlayerController : MonoBehaviour
             eliminatedBy = null;
             hasScored = false; 
             skinnedMeshRenderer.material = playerMat;
+            dizzyParticle.SetActive(false);
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
     }

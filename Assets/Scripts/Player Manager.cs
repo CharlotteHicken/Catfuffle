@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject menuScreen;
     public GameObject tutorialScreen;
     public GameObject winScreen;
+    public GameObject timerIcon;
     bool menuResetTime = true;
     bool menuOn = true;
     bool tutorialOn = false;
@@ -151,6 +152,7 @@ void Update()
             int convertToMinutes = Mathf.FloorToInt(gameTimeLength / 60); // Convert seconds to minutes
             int convertToSeconds = Mathf.FloorToInt(gameTimeLength % 60); // Get remaining seconds after converting to minutes
 
+            timerIcon.SetActive(true);
             roundTimer.text = string.Format("{0:00}:{1:00}", convertToMinutes, convertToSeconds); // Format the timer display
             if (0 >= gameTimeLength)
             {
@@ -190,7 +192,7 @@ void Update()
         void ShowWinScreen(PlayerController winner)
         {
             Debug.Log("Showing win screen...");
-            
+            timerIcon.SetActive(false);
             player1.SetActive(false); // Deactivate all players first
             player2.SetActive(false);
             player3.SetActive(false);

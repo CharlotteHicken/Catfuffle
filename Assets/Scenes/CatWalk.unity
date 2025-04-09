@@ -1228,6 +1228,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422867988}
     m_Modifications:
+    - target: {fileID: 6806322492867387465, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8551279997025674840, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 65.84
@@ -1271,6 +1275,10 @@ PrefabInstance:
     - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_Name
       value: BouncePad (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28648,6 +28656,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2037106589}
     - target: {fileID: 6152719458723748363, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
+      propertyPath: playerMat
+      value: 
+      objectReference: {fileID: 2100000, guid: fd153feb11440d949b490d0d9dce070d, type: 2}
+    - target: {fileID: 6152719458723748363, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: scoreTracker
       value: 
       objectReference: {fileID: 1685697050}
@@ -28670,7 +28682,7 @@ PrefabInstance:
     - target: {fileID: 7091183267987761685, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 7091183267987761685, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: scoreKeeper
       value: 
@@ -28690,7 +28702,7 @@ PrefabInstance:
     - target: {fileID: 7713804083571539975, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 7713804083571539975, guid: f0fe9cd8914505f4eb36853a9c3dd016, type: 3}
       propertyPath: scoreKeeper
       value: 
@@ -34018,7 +34030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8fb6c5e7f0aee56458c19c9b22189e22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.2
+      value: 9.949999
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8fb6c5e7f0aee56458c19c9b22189e22, type: 3}
       propertyPath: m_LocalPosition.z
@@ -39779,12 +39791,12 @@ GameObject:
   - component: {fileID: 527241088}
   - component: {fileID: 527241087}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TimeIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &527241086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39801,7 +39813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.34, y: 158.7}
+  m_AnchoredPosition: {x: -87.7, y: 158.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &527241087
@@ -39850,6 +39862,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422867988}
     m_Modifications:
+    - target: {fileID: 6806322492867387465, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8551279997025674840, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 89.05
@@ -39893,6 +39909,10 @@ PrefabInstance:
     - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_Name
       value: BouncePad (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45381,6 +45401,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422867988}
     m_Modifications:
+    - target: {fileID: 6806322492867387465, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8551279997025674840, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.040001
@@ -45424,6 +45448,10 @@ PrefabInstance:
     - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_Name
       value: BouncePad (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45548,6 +45576,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422867988}
     m_Modifications:
+    - target: {fileID: 6806322492867387465, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8551279997025674840, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50.58
@@ -45591,6 +45623,10 @@ PrefabInstance:
     - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_Name
       value: BouncePad (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -68007,7 +68043,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49e5c63bc65329e49b837aa534e0cb55, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.16
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49e5c63bc65329e49b837aa534e0cb55, type: 3}
       propertyPath: m_LocalPosition.z
@@ -73074,7 +73110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49e5c63bc65329e49b837aa534e0cb55, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.18
+      value: 5.93
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49e5c63bc65329e49b837aa534e0cb55, type: 3}
       propertyPath: m_LocalPosition.z
@@ -115404,6 +115440,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422867988}
     m_Modifications:
+    - target: {fileID: 6806322492867387465, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8551279997025674840, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 35.690002
@@ -115447,6 +115487,10 @@ PrefabInstance:
     - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_Name
       value: BouncePad (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -116103,6 +116147,7 @@ MonoBehaviour:
   menuScreen: {fileID: 36569834}
   tutorialScreen: {fileID: 534594989}
   winScreen: {fileID: 1157055805}
+  timerIcon: {fileID: 527241085}
   gameTimeLength: 300
   roundTimer: {fileID: 2000377077}
   winScreenTime: 35
@@ -155691,7 +155736,7 @@ PrefabInstance:
     - target: {fileID: 3068290677610557996, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 3068290677610557996, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: scoreKeeper
       value: 
@@ -155769,6 +155814,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1482913339}
     - target: {fileID: 6258653170295019578, guid: 524ed9369d863024f9232711d59f1755, type: 3}
+      propertyPath: playerMat
+      value: 
+      objectReference: {fileID: 2100000, guid: f55654ecfa372814db74e4da9a9143b1, type: 2}
+    - target: {fileID: 6258653170295019578, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: scoreTracker
       value: 
       objectReference: {fileID: 8784357040704628290}
@@ -155811,7 +155860,7 @@ PrefabInstance:
     - target: {fileID: 8628666056449402788, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 8628666056449402788, guid: 524ed9369d863024f9232711d59f1755, type: 3}
       propertyPath: scoreKeeper
       value: 
@@ -155902,6 +155951,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422867988}
     m_Modifications:
+    - target: {fileID: 6806322492867387465, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8551279997025674840, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.949999
@@ -155945,6 +155998,10 @@ PrefabInstance:
     - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
       propertyPath: m_Name
       value: BouncePad
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072483261748231394, guid: e75d23dca48842f4aaa579f62c3906e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -156412,9 +156469,13 @@ PrefabInstance:
       value: -174
       objectReference: {fileID: 0}
     - target: {fileID: 3122442834041923270, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122442834041923270, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 3663505611088017040, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
       propertyPath: m_TagString
       value: Body
@@ -156468,6 +156529,10 @@ PrefabInstance:
       value: 197.6
       objectReference: {fileID: 0}
     - target: {fileID: 4177942401080236742, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
+      propertyPath: playerMat
+      value: 
+      objectReference: {fileID: 2100000, guid: cb7d64d9bdd067945bc534dabcc73df3, type: 2}
+    - target: {fileID: 4177942401080236742, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
       propertyPath: dizzyParticle
       value: 
       objectReference: {fileID: 1455885739}
@@ -156518,7 +156583,7 @@ PrefabInstance:
     - target: {fileID: 7664712703770598611, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 7922280000039320853, guid: 2ec078d79d5aada4091bc8a72507583e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -156680,7 +156745,7 @@ PrefabInstance:
     - target: {fileID: 18833112949241105, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 18833112949241105, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: scoreKeeper
       value: 
@@ -156736,7 +156801,7 @@ PrefabInstance:
     - target: {fileID: 1331883818142640242, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: redMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d13391e7f2c057448b4d1ba20b886c51, type: 2}
+      objectReference: {fileID: 2100000, guid: 50e88f10bf8634b489bf0982ae3f88cd, type: 2}
     - target: {fileID: 1331883818142640242, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: scoreKeeper
       value: 
@@ -156801,6 +156866,10 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 391096880}
+    - target: {fileID: 2179378627654416763, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
+      propertyPath: playerMat
+      value: 
+      objectReference: {fileID: 2100000, guid: e8371c3f1d0b0054ebef08c43f46f105, type: 2}
     - target: {fileID: 2179378627654416763, guid: c908ea4d67b870043a0939056b2bbe72, type: 3}
       propertyPath: scoreTracker
       value: 
