@@ -114,6 +114,8 @@ public class PlayerController : MonoBehaviour
     public Material playerMat;
     float timerMat;
     public bool hasScored;
+
+    public GameObject dizzyParticle;
     void Start()
     {
 
@@ -440,6 +442,7 @@ public class PlayerController : MonoBehaviour
 
             gameObject.tag = "Downed";
             //Debug.Log(timer);
+            dizzyParticle.SetActive(true);
             timer += Time.deltaTime;
             playerInput = transform.position;
             rb.useGravity = true;
@@ -456,6 +459,7 @@ public class PlayerController : MonoBehaviour
                 position = transform.position,
                 cause = "SlappedOut"
             });
+            dizzyParticle.SetActive(false);
 
             timer = 0;
             hitCount = 0;
