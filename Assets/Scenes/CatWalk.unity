@@ -7745,7 +7745,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -220, y: -125.94}
+  m_AnchoredPosition: {x: -220, y: -157}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &183608999
@@ -7768,8 +7768,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Gain 1 point for eliminating a player! \nGain 2 points for eliminating
-    a player by grabbing and throwing them!"
+  m_text: 'Gain 1 point for eliminating a player! '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ab3caf3eccb69a4cab9fa5f0463fc9a, type: 2}
   m_sharedMaterial: {fileID: 4040895232339808659, guid: 1ab3caf3eccb69a4cab9fa5f0463fc9a, type: 2}
@@ -115523,7 +115522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 333, y: -197}
+  m_AnchoredPosition: {x: 333, y: -193.4}
   m_SizeDelta: {x: 178.6, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1513425263
