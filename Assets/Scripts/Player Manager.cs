@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour
 
 
 
-// Update is called once per frame
+    // Update is called once per frame
 void Update()
     {
 
@@ -66,7 +66,7 @@ void Update()
             if (!playMenue)
             {
                 audioManager.PlayMusic(audioManager.Menue);
-                audioManager.volumeZeroPointZeroOne();
+                audioManager.volumeZeroPointTwo();
                 playMenue = true;
             }
 
@@ -102,12 +102,13 @@ void Update()
         
         if (tutorialOn)
         {
+            playMenue = false;
+
             tutorialScreen.SetActive(true);
             if (Input.GetButtonDown("ButtonO") || Input.GetKey(KeyCode.Escape))
             {
                 tutorialScreen.SetActive(false);
                 tutorialOn = false;
-                playMenue = false;
             }
         }
 
@@ -139,6 +140,13 @@ void Update()
         {
             gameTimeLength -= Time.deltaTime; // Decrease time by delta time each frame
 
+            if (!playBattle)
+            {
+                audioManager.PlayMusic(audioManager.Battle);
+                audioManager.volumeZeroPointTwo();
+                playBattle = true;
+            }
+            
 
             int convertToMinutes = Mathf.FloorToInt(gameTimeLength / 60); // Convert seconds to minutes
             int convertToSeconds = Mathf.FloorToInt(gameTimeLength % 60); // Get remaining seconds after converting to minutes
@@ -146,18 +154,15 @@ void Update()
             roundTimer.text = string.Format("{0:00}:{1:00}", convertToMinutes, convertToSeconds); // Format the timer display
             if (0 >= gameTimeLength)
             {
-                if (!playVictory)
-                {
-                    audioManager.PlayMusic(audioManager.Victory);
-                    audioManager.volumeZeroPointTwo();
-                    playVictory = true;
-                }
+                
+                playBattle = false;
                 DetermineWinner();
             }
         }
 
         void DetermineWinner()
         {
+            
             PlayerController winner = null;
             float highestScore = -1;
 
@@ -196,18 +201,24 @@ void Update()
             winScreen.SetActive(true);
           
             roundTimer.text = " ";
+            if (!playVictory)
+            {
+                audioManager.PlayMusic2(audioManager.Victory);
+                audioManager.volumeZeroPointTwo2();
+                playVictory = true;
+            }
             timeElasped += Time.deltaTime;
+
             if (timeElasped >= (winScreenTime + gameTimeLength))
             {
                 timeElasped = 0;
-                playVictory = false;
-
                 MenuRestart();
             }
         }
 
         void MenuRestart()
         {
+            playVictory = false;
             player1.SetActive(false);
             player2.SetActive(false);
             player3.SetActive(false);

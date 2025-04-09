@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Source")]
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource SFXSource;
+    [SerializeField] AudioSource musicSource2;
 
     [Header("Audio Clip")]
     public AudioClip Grab;
@@ -26,7 +27,19 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMusic(AudioClip clip)
     {
-        musicSource.PlayOneShot(clip);
+        musicSource.Stop();
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.Play();
+        Debug.Log($"Now playing: {clip.name}");
+    }
+    public void PlayMusic2(AudioClip clip)
+    {
+        musicSource.Stop();
+        musicSource2.Stop();
+        musicSource2.clip = clip;
+        musicSource2.Play();
+        Debug.Log($"Now playing: {clip.name}");
     }
 
     public void volumeZeroPointZeroOne()
@@ -38,4 +51,15 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.volume = 0.2f;
     }
+    
+    public void volumeZeroPointTwo2()
+    {
+        musicSource.volume = 0.2f;
+    }
+
+    public void volumeOne()
+    {
+        musicSource.volume = 1;
+    }
+
 }
