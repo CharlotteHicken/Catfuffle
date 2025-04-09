@@ -645,6 +645,10 @@ public class PlayerController : MonoBehaviour
 
     void Dying()
     {
+        if (eliminatedBy != true)
+        {
+            scoreTracker.currentScore -= 1;
+        }
         //Debug.Log("InKillVolume");
         //play ouch sound
         //set poof dying particle to active
